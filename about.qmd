@@ -1,9 +1,21 @@
 ---
-title: "About"
+title: "About Me"
 ---
 
-About this site
+# Education
 
-```{r}
-1 + 1
-```
+Bachelor of Arts (B.A.) in Organizational Studies and Psychology; Minor in Data Science.
+
+# Professional Experience
+
+International Students Orientation Assistant
+
+Student Success Assistant
+
+Academic Guide
+
+# Leaderships
+
+Pitzer International Students Association (PISA)
+
+The Pasifika Asian Student Union (PASU)

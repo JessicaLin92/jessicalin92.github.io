@@ -1,11 +1,19 @@
 ---
-title: "JessicaLin92.github.io"
+title: "Jessica (YongJie) Lin"
 ---
+<img src="https://t0.gstatic.com/licensed-image?q=tbn:ANd9GcQUV_5FvpgGgsC8N46PD4CVNiBmgTv-s6EogkH_-eCC84cTK5IewL7VruWufXXF4syZ" alt="Puppy" width="500px" style="display: block; margin-left: auto; margin-right: auto;">
 
-This is a Quarto website.
+This is Jessica's website.
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+Welcome! I am a junior student at Pitzer studying Organizational Studies and Psychology, with a minor in data science.
+
+# Contact information
+[LinkedIn](https://www.linkedin.com/in/jessicalinyongjie/)
+
+[GitHub](https://github.com/JessicaLin92)
+
+[Email](jeslin@students.pitzer.edu)
 
 ```{r}
-1 + 1
+
 ```
