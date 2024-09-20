@@ -2,28 +2,32 @@
 title: Data Visualization 
 ---
 ```{r}
-install.packages("tidyverse")
-install.packages("tidytuesday")
+
 ```
 
 ```{r}
 library(tidyverse)
-library(tidytuesday)
 ```
 
 ```{r}
-ggplot(msleep, aes(x= bodywt,y=awake, color= vore))+
-  geom_point()+
+newdata<- msleep %>% filter(!is.na(vore)) |>
+  filter(bodywt< 300)
+
+ggplot(newdata, aes(x= bodywt, y=awake, color= vore))+
+  geom_point(na.rm = TRUE)+
   labs (
     x = "The body weight in kg",
     y = "The amount of time spent awake",
-    title = "Mammals' body weight and their time spent awake"
+    title = "Mammals' body weight and their time spent awake", 
+    subtitle = "Excluding mammals that is hearvier than 300 kg/ outliners"
   )
 
 ```
 
 
-(Source from TidyTuesday)
+(Source from TidyTuesday; from V. M. Savage and G. B. West.)
+
+
 
 ```{r}
 ggplot(Orange, aes(x=age, y=circumference, color=Tree))+
@@ -35,10 +39,7 @@ ggplot(Orange, aes(x=age, y=circumference, color=Tree))+
   )
 ```
 
-Source
-Draper, N. R. and Smith, H. (1998), Applied Regression Analysis (3rd ed), Wiley (exercise 24.N).
-
-Pinheiro, J. C. and Bates, D. M. (2000) Mixed-effects Models in S and S-PLUS, Springer.
+(Source from Tidytuesday; Draper, N. R. and Smith, H. (1998), Applied Regression Analysis (3rd ed), Wiley (exercise 24.N).and Pinheiro, J. C. and Bates, D. M. (2000) Mixed-effects Models in S and S-PLUS, Springer.)
 
 
 
