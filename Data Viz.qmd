@@ -1,10 +1,17 @@
 ---
 title: Data Visualization 
 ---
+```{r}
+install.packages("tidyverse")
+install.packages("tidytuesday")
+```
 
 ```{r}
 library(tidyverse)
+library(tidytuesday)
+```
 
+```{r}
 ggplot(msleep, aes(x= bodywt,y=awake, color= vore))+
   geom_point()+
   labs (
@@ -16,7 +23,7 @@ ggplot(msleep, aes(x= bodywt,y=awake, color= vore))+
 ```
 
 
-(Source from TidyTuesday; Updated sleep times and weights were taken from V. M. Savage and G. B. West. A quantitative, theoretical framework for understanding mammalian sleep. Proceedings of the National Academy of Sciences, 104 (3):1051-1056, 2007)
+(Source from TidyTuesday)
 
 ```{r}
 ggplot(Orange, aes(x=age, y=circumference, color=Tree))+
@@ -28,7 +35,7 @@ ggplot(Orange, aes(x=age, y=circumference, color=Tree))+
   )
 ```
 
-Source from TidyTuesday 
+Source
 Draper, N. R. and Smith, H. (1998), Applied Regression Analysis (3rd ed), Wiley (exercise 24.N).
 
 Pinheiro, J. C. and Bates, D. M. (2000) Mixed-effects Models in S and S-PLUS, Springer.
