@@ -8,8 +8,10 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - about.qmd
-      - Data Viz.qmd
+      - href: about.qmd
+        text: About
+      - href: Data Viz.qmd
+        text: Data Visualization 
 
 format:
   html:

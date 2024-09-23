@@ -9,6 +9,7 @@ title: Data Visualization
 library(tidyverse)
 ```
 
+#Data Visualization on mammals' body weight and their time spent awake
 ```{r}
 newdata<- msleep %>% filter(!is.na(vore)) |>
   filter(bodywt< 300)
@@ -29,6 +30,10 @@ ggplot(newdata, aes(x= bodywt, y=awake, color= vore))+
 
 
 
+
+
+
+#Data Visualization on the age of orange tree and their trunk circumferences
 ```{r}
 ggplot(Orange, aes(x=age, y=circumference, color=Tree))+
   geom_point()+
