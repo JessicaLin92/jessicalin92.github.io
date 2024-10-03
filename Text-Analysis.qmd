@@ -1,0 +1,95 @@
+---
+title: "Project 2: Text Analysis"
+output:
+  html_document:
+    message: FALSE
+    warning: FALSE
+---
+
+```{r, warning=FALSE, message=FALSE}
+library("tidytuesdayR")
+library("tidyverse")
+
+netflix_titles <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-20/netflix_titles.csv')
+
+show_col_types = FALSE
+```
+
+So for this project, we will be looking at the Netflix products that are filmed in United states only.
+
+```{r, warning=FALSE, message=FALSE}
+library(dplyr)
+library(stringr)
+
+USfilms <- netflix_titles |>
+    filter(str_detect(country, "United States")) |>
+  select(title, country, type) |> 
+  filter(!is.na(everything))
+```
+
+Next, we will find out the first letter of the Netflix productions, and calculate the occurrences of each letter in the Netflix productions
+
+```{r, warning=FALSE, message=FALSE}
+N_firstword <- USfilms |>
+filter(str_detect(title, "^[A-Z]")) |>
+  mutate(first_word = str_extract(title, "^\\w")) |>
+  group_by(first_word) |>
+  mutate(count = n())
+
+print(N_firstword)
+```
+
+Now we can visualize it!
+
+```{r, warning=FALSE, message=FALSE}
+library(ggplot2)
+
+ggplot(N_firstword, aes(x= first_word, fill=type)) +
+   geom_bar() +
+  labs(title = "Occurrences of different first letter in US Netflix Productions",
+       x = "First Letter (A ~Z)",
+       y = "Number of Occurrences") 
+ 
+```
+
+So according to the list, the most first letter in the US Netflix production is "T" which is pretty easy to understand since most of the movie may start with the word 'The'.
+
+Now I am wondering about how much US netflix production are starting in numbers and their occurrences.
+
+```{r, warning=FALSE, message=FALSE}
+N_firstdigit <- USfilms |>
+  filter(str_detect(title, "^\\d+")) |>
+  mutate(first_digit = str_extract(title, "^\\d")) |>
+  group_by(first_digit) |>
+  mutate(count = n())
+
+print(N_firstdigit)
+```
+
+And now we visualize it!
+
+```{r, warning=FALSE, message=FALSE}
+ ggplot(N_firstdigit, aes(x= first_digit, fill=type)) +
+   geom_bar() +
+  labs(title = "Occurrences of different first digit in US Netflix Productions",
+       x = "First Digit (0~9)",
+       y = "Number of Occurrences") 
+```
+
+So the graph displays a pretty interesting fact, which is that the digit "1" appear the most in both movies and TV shows in US Netflix production. I suspect that the reason may be because Many documentary titles or reality shows often include a numeric element, such as rankings or competitions, and those often start with number '1'.
+
+Some other interesting fact is that there is no TV shows title that starts with the digit '4' and there is no Movies title that starts with the digit '7' in the US Netflix production.
+
+#### Insight 
+
+The analysis of first letters in US Netflix productions reveals some intriguing patterns:
+
+-   Dominance of "T": The letter "T" is the most common starting letter for titles. This is likely due to the prevalence of titles that begin with "The," a common article in English.
+
+-   Prevalence of the Digit "1": The digit "1" appears most frequently as the starting digit in both movies and TV shows.
+
+-   Absence of Titles Starting with Certain Digits: There are no TV shows starting with the digit "4," possibly indicating a lack of popular content or marketing focus. Similarly, no movies begin with "7," which may reflect industry naming trends or a scarcity of suitable productions.
+
+#### Reference
+
+The data set Netflix_Titles comes from [Kaggle](https://www.kaggle.com/datasets/shivamb/netflix-shows) w/ credit to Shivam Bansal.

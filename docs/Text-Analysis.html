@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Data Visualization on the age of orange tree and their trunk circumferences – JessicaLin92.github.io</title>
+<title>Project 2: Text Analysis – JessicaLin92.github.io</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -135,7 +135,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Data Visualization</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./Text Analysis.html"> 
+    <a class="nav-link active" href="./Text-Analysis.html" aria-current="page"> 
 <span class="menu-text">Text Analysis</span></a>
   </li>  
 </ul>
@@ -157,7 +157,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Data Visualization on the age of orange tree and their trunk circumferences</h1>
+<h1 class="title">Project 2: Text Analysis</h1>
 </div>
 
 
@@ -175,39 +175,127 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.4     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.5.1     ✔ tibble    3.2.1
-✔ lubridate 1.9.3     ✔ tidyr     1.3.1
-✔ purrr     1.0.2     
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"tidytuesdayR"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"tidyverse"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>netflix_titles <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-20/netflix_titles.csv'</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>show_col_types <span class="ot">=</span> <span class="cn">FALSE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
+<p>So for this project, we will be looking at the Netflix products that are filmed in United states only.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Orange, <span class="fu">aes</span>(<span class="at">x=</span>age, <span class="at">y=</span>circumference, <span class="at">color=</span>Tree))<span class="sc">+</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span> <span class="st">"The age of the tree"</span>, </span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">"A numeric vector of trunk circumferences (mm)"</span>, </span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span> <span class="st">"The age of orange tree and their trunk circumferences"</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>USfilms <span class="ot">&lt;-</span> netflix_titles <span class="sc">|&gt;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="fu">str_detect</span>(country, <span class="st">"United States"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(title, country, type) <span class="sc">|&gt;</span> </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(everything))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Next, we will find out the first letter of the Netflix productions, and calculate the occurrences of each letter in the Netflix productions</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>N_firstword <span class="ot">&lt;-</span> USfilms <span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(<span class="fu">str_detect</span>(title, <span class="st">"^[A-Z]"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">first_word =</span> <span class="fu">str_extract</span>(title, <span class="st">"^</span><span class="sc">\\</span><span class="st">w"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(first_word) <span class="sc">|&gt;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">count =</span> <span class="fu">n</span>())</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(N_firstword)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3,241 × 5
+# Groups:   first_word [26]
+   title                                   country        type  first_word count
+   &lt;chr&gt;                                   &lt;chr&gt;          &lt;chr&gt; &lt;chr&gt;      &lt;int&gt;
+ 1 A 3 Minute Hug                          Mexico, Unite… Movie A            223
+ 2 A Babysitter's Guide to Monster Hunting United States  Movie A            223
+ 3 A Bad Moms Christmas                    United States… Movie A            223
+ 4 A Boy Called Po                         United States  Movie A            223
+ 5 A Bridge Too Far                        United States… Movie A            223
+ 6 A California Christmas                  United States  Movie A            223
+ 7 A Champion Heart                        United States  Movie A            223
+ 8 A Christmas Prince                      United States  Movie A            223
+ 9 A Christmas Prince: The Royal Baby      United States  Movie A            223
+10 A Christmas Prince: The Royal Wedding   United States  Movie A            223
+# ℹ 3,231 more rows</code></pre>
+</div>
+</div>
+<p>Now we can visualize it!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(N_firstword, <span class="fu">aes</span>(<span class="at">x=</span> first_word, <span class="at">fill=</span>type)) <span class="sc">+</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Occurrences of different first letter in US Netflix Productions"</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"First Letter (A ~Z)"</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Number of Occurrences"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Data-Viz--2_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="Text-Analysis_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>(Source from Tidytuesday; Draper, N. R. and Smith, H. (1998), Applied Regression Analysis (3rd ed), Wiley (exercise 24.N).and Pinheiro, J. C. and Bates, D. M. (2000) Mixed-effects Models in S and S-PLUS, Springer.)</p>
+<p>So according to the list, the most first letter in the US Netflix production is “T” which is pretty easy to understand since most of the movie may start with the word ‘The’.</p>
+<p>Now I am wondering about how much US netflix production are starting in numbers and their occurrences.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>N_firstdigit <span class="ot">&lt;-</span> USfilms <span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(title, <span class="st">"^</span><span class="sc">\\</span><span class="st">d+"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">first_digit =</span> <span class="fu">str_extract</span>(title, <span class="st">"^</span><span class="sc">\\</span><span class="st">d"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(first_digit) <span class="sc">|&gt;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">count =</span> <span class="fu">n</span>())</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(N_firstdigit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 49 × 5
+# Groups:   first_digit [8]
+   title            country                        type    first_digit count
+   &lt;chr&gt;            &lt;chr&gt;                          &lt;chr&gt;   &lt;chr&gt;       &lt;int&gt;
+ 1 9                United States                  Movie   9               2
+ 2 21               United States                  Movie   2               8
+ 3 187              United States                  Movie   1              21
+ 4 1922             United States                  Movie   1              21
+ 5 1983             Poland, United States          TV Show 1              21
+ 6 3022             United States                  Movie   3               5
+ 7 22-Jul           Norway, Iceland, United States Movie   2               8
+ 8 1 Chance 2 Dance United States                  Movie   1              21
+ 9 1 Mile to You    United States                  Movie   1              21
+10 10,000 B.C.      United States, South Africa    Movie   1              21
+# ℹ 39 more rows</code></pre>
+</div>
+</div>
+<p>And now we visualize it!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">ggplot</span>(N_firstdigit, <span class="fu">aes</span>(<span class="at">x=</span> first_digit, <span class="at">fill=</span>type)) <span class="sc">+</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Occurrences of different first digit in US Netflix Productions"</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"First Digit (0~9)"</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Number of Occurrences"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Text-Analysis_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>So the graph displays a pretty interesting fact, which is that the digit “1” appear the most in both movies and TV shows in US Netflix production. I suspect that the reason may be because Many documentary titles or reality shows often include a numeric element, such as rankings or competitions, and those often start with number ‘1’.</p>
+<p>Some other interesting fact is that there is no TV shows title that starts with the digit ‘4’ and there is no Movies title that starts with the digit ‘7’ in the US Netflix production.</p>
+<section id="insight" class="level4">
+<h4 class="anchored" data-anchor-id="insight">Insight</h4>
+<p>The analysis of first letters in US Netflix productions reveals some intriguing patterns:</p>
+<ul>
+<li><p>Dominance of “T”: The letter “T” is the most common starting letter for titles. This is likely due to the prevalence of titles that begin with “The,” a common article in English.</p></li>
+<li><p>Prevalence of the Digit “1”: The digit “1” appears most frequently as the starting digit in both movies and TV shows.</p></li>
+<li><p>Absence of Titles Starting with Certain Digits: There are no TV shows starting with the digit “4,” possibly indicating a lack of popular content or marketing focus. Similarly, no movies begin with “7,” which may reflect industry naming trends or a scarcity of suitable productions.</p></li>
+</ul>
+</section>
+<section id="reference" class="level4">
+<h4 class="anchored" data-anchor-id="reference">Reference</h4>
+<p>The data set Netflix_Titles comes from <a href="https://www.kaggle.com/datasets/shivamb/netflix-shows">Kaggle</a> w/ credit to Shivam Bansal.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
