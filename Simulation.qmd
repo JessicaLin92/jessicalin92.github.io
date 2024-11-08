@@ -1,5 +1,5 @@
 ---
-title: "Project 2: Text Analysis"
+title: "Project 3: Simulation"
 output:
   html_document:
     message: FALSE
@@ -65,4 +65,8 @@ This plot display the results of the 1000 trials that we run, and within these 1
 
 For this project, we use R to simulate the course registration event here at 5C colleges, although the numbers we input are very much based on assumptions, we do successfully use R to simulate and get a sense of the probabilities of 1 student getting into the class that 50 students are interested in.
 
-Some possible limitation or improvement for furture simulation: - Could potentially take the concept of 'majors' into consideration as they tends to have a prioritizes when regsirtating for their major classes. - In the similar manner, we can also take into consideration of 'perms' since this is the way professor approve or disapprove students' ability to register the class.
+Some possible limitation or improvement for future simulation:
+
+-   Could potentially take the concept of 'majors' into consideration as they tends to have a prioritizes when registering for their major classes.
+
+-   In the similar manner, we can also take into consideration of 'perms' since this is the way professor approve or disapprove students' ability to register the class.
