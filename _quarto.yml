@@ -14,6 +14,8 @@ website:
         text: Data Visualization 
       - href: Text-Analysis.qmd
         text: Text Analysis
+      - href: Simulation.qmd
+        text: Simulation
 
 format:
   html:

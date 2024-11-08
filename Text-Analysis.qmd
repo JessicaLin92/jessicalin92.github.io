@@ -80,7 +80,7 @@ So the graph displays a pretty interesting fact, which is that the digit "1" app
 
 Some other interesting fact is that there is no TV shows title that starts with the digit '4' and there is no Movies title that starts with the digit '7' in the US Netflix production.
 
-#### Insight 
+#### Insight
 
 The analysis of first letters in US Netflix productions reveals some intriguing patterns:
 
