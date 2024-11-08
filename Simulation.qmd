@@ -6,7 +6,7 @@ output:
     warning: FALSE
 ---
 
-For this project, we aimed to construct a simulation of students doing course registration at the Claremont Colleges. In order to create this simulation, We first defined a function that simulate the regiration action, next we assign students into a list that reprsent the order of course registration time. Last, we define the result for whether one particular student can get into the class such as 1 being True: the student can get into the class, or 0 being False: the student would not get into the class.
+For this project, we aimed to construct a simulation of students doing course registration at the Claremont Colleges. In order to create this simulation, We first defined a function that simulate the regiration action, next we assign students into a list that represent the order of course registration time. Last, we define the result for whether one particular student can get into the class such as 1 being True: the student can get into the class, or 0 being False: the student would not get into the class.
 
 ```{r}
 simulate_registration <- function(class_size, num_students, priority_weight = NULL) {
