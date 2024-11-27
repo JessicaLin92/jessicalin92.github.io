@@ -1,0 +1,185 @@
+---
+title: "Project 4: SQL"
+output:
+  html_document:
+    message: FALSE
+    warning: FALSE
+---
+
+```{r}
+library(dbplyr)
+library(dplyr)
+```
+
+```{r}
+library(RMariaDB)
+con_wai <- dbConnect(
+  MariaDB(), host = "scidb.smith.edu",
+  user = "waiuser", password = "smith_waiDB", 
+  dbname = "wai"
+)
+Measurements <- tbl(con_wai, "Measurements")
+PI_Info <- tbl(con_wai, "PI_Info")
+Subjects <- tbl(con_wai, "Subjects")
+```
+
+```{sql connection=con_wai}
+SHOW TABLES;
+```
+
+For this project, we are duplicate the Figure 1 from [Voss (2020)](https://pmc.ncbi.nlm.nih.gov/articles/PMC7093226/). We will query the WAI Database and build a data set in order to graph using ggplot.
+
+```{sql connection=con_wai}
+SELECT 
+    Identifier, Instrument, 
+    COUNT(DISTINCT CONCAT(SubjectNumber, Ear)) AS Unique_Ears,
+    Frequency,
+    AVG(Absorbance) AS MeanAbsorbance
+FROM Measurements
+WHERE Identifier IN ('Abur_2014', 'Feeney_2017', 'Groon_2015', 
+                     'Lewis_2015', 'Liu_2008', 'Rosowski_2012', 
+                     'Shahnaz_2006', 'Shaver_2013', 'Sun_2016', 
+                     'Voss_1994', 'Voss_2010', 'Werner_2010')
+GROUP BY Identifier, Instrument, Frequency
+ORDER BY Frequency;
+```
+
+```{r}
+graph_data <- "
+SELECT 
+    m.Identifier,
+    m.Instrument,
+    COUNT(DISTINCT CONCAT(m.SubjectNumber, m.Ear)) AS Unique_Ears, -- Count unique ears
+    m.Frequency,
+    AVG(m.Absorbance) AS MeanAbsorbance
+FROM Measurements m
+WHERE m.Identifier IN ('Abur_2014', 'Feeney_2017', 'Groon_2015', 
+                        'Lewis_2015', 'Liu_2008', 'Rosowski_2012', 
+                        'Shahnaz_2006', 'Shaver_2013', 'Sun_2016', 
+                        'Voss_1994', 'Voss_2010', 'Werner_2010')
+  AND m.Frequency > 200 -- Filter relevant frequencies
+  AND m.Frequency < 8000 -- Align with the x-axis scale
+GROUP BY m.Identifier, m.Instrument, m.Frequency
+ORDER BY m.Identifier, m.Frequency;
+"
+```
+
+```{r}
+graph_plot <- dbGetQuery(con_wai, graph_data)
+
+library(ggplot2)
+
+ggplot(graph_plot, aes(x = Frequency, y = MeanAbsorbance, color = Identifier)) +
+  geom_line() +
+  scale_x_log10() + 
+  labs(
+    title = "Mean Absorbance from Each Publication in WAI Database",
+    x = "Frequency (Hz)",
+    y = "Mean Absorbance") +
+    theme_minimal() 
+
+```
+
+The graph displays the mean absorbance (on y-axis) across different frequencies (Hz) (on x-axis) for multiple studies, each represented by a distinct line. The graph compares how absorbance patterns vary by frequency among studies using different systems.
+
+# Part 2 - Specific Group of interest
+
+For part 2, we are examining subjects with different race, especially Black and Caucasian.
+
+```{sql connection=con_wai}
+SELECT 
+    Identifier,
+    COUNT(*) AS Total_Subjects,
+    COUNT(DISTINCT Race) AS Race_Groups,
+    SUM(CASE WHEN Race = 'Unknown' THEN 1 ELSE 0 END) AS Unknown
+FROM Subjects
+GROUP BY Identifier
+HAVING Race_Groups > 1 AND (Total_Subjects - Unknown) > 0; 
+```
+
+```{r}
+query_race <- "
+SELECT 
+    Identifier,
+    COUNT(*) AS Total_Subjects,
+    COUNT(DISTINCT Race) AS Race_Groups,
+    SUM(CASE WHEN Race = 'Unknown' THEN 1 ELSE 0 END) AS Unknown
+FROM Subjects
+GROUP BY Identifier
+HAVING Race_Groups > 1 AND (Total_Subjects - Unknown) > 0;"
+
+diverse_studies <- dbGetQuery(con_wai, query_race)
+
+print(diverse_studies)
+
+```
+
+```{sql connection=con_wai}
+
+SELECT 
+    m.Identifier,       
+    s.Race AS GroupName,  
+    m.Frequency,         
+    AVG(m.Absorbance) AS MeanAbsorbance 
+FROM Measurements m
+JOIN Subjects s 
+    ON m.SubjectNumber = s.SubjectNumber
+    AND m.Identifier = s.Identifier
+WHERE m.Identifier IN ('Abur_2014', 'Feeney_2017', 'Groon_2015', 
+                        'Lewis_2015', 'Liu_2008', 'Rosowski_2012', 
+                        'Shahnaz_2006', 'Shaver_2013', 'Sun_2016', 
+                        'Voss_1994', 'Voss_2010', 'Werner_2010') 
+  AND m.Frequency > 200            
+  AND m.Frequency < 8000
+  AND m.Absorbance >= 0            
+  AND s.Race IN ( 'Chinese', 'Caucasian')   
+GROUP BY m.Identifier, s.Race, m.Frequency 
+ORDER BY m.Identifier, s.Race, m.Frequency;
+
+```
+
+```{r}
+query_race <- "
+
+SELECT 
+    m.Identifier,       
+    s.Race AS GroupName,  
+    m.Frequency,         
+    AVG(m.Absorbance) AS MeanAbsorbance 
+FROM Measurements m
+JOIN Subjects s 
+    ON m.SubjectNumber = s.SubjectNumber
+    AND m.Identifier = s.Identifier
+WHERE m.Identifier IN ('Abur_2014', 'Feeney_2017', 'Groon_2015', 
+                        'Lewis_2015', 'Liu_2008', 'Rosowski_2012', 
+                        'Shahnaz_2006', 'Shaver_2013', 'Sun_2016', 
+                        'Voss_1994', 'Voss_2010', 'Werner_2010') 
+  AND m.Frequency > 200            
+  AND m.Frequency < 8000
+  AND m.Absorbance >= 0            
+  AND s.Race IN ( 'Black', 'Caucasian')  
+GROUP BY m.Identifier, s.Race, m.Frequency 
+ORDER BY m.Identifier, s.Race, m.Frequency;"
+
+
+data_absorption <- dbGetQuery(con_wai, query_race)
+
+
+head(data_absorption)
+```
+
+```{r}
+
+ggplot(data_absorption, aes(x = Frequency, y = MeanAbsorbance, color = GroupName)) +
+  geom_line() +
+  facet_wrap(~ Identifier) +  
+  scale_x_log10() +          
+  labs(
+    title = "Mean Absorbance by Ethnicity Across Multiple Studies",
+    x = "Frequency (Hz)",
+    y = "Mean Absorbance",
+    color = "Race"
+  ) +
+  theme_minimal()
+
+```
