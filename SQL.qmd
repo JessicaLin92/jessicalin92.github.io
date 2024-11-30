@@ -6,7 +6,7 @@ output:
     warning: FALSE
 ---
 
-```{r}
+```{r, message = FALSE, warning = FALSE}
 library(dbplyr)
 library(dplyr)
 ```
@@ -27,7 +27,11 @@ Subjects <- tbl(con_wai, "Subjects")
 SHOW TABLES;
 ```
 
+# Part 1: Duplicating the graph
+
 For this project, we are duplicate the Figure 1 from [Voss (2020)](https://pmc.ncbi.nlm.nih.gov/articles/PMC7093226/). We will query the WAI Database and build a data set in order to graph using ggplot.
+
+Step 1: Selecting the components that we need for the graph which includes identifier (only the studies that were shown in the original graph), instruments, frequency, absorbence and etc.
 
 ```{sql connection=con_wai}
 SELECT 
@@ -64,6 +68,8 @@ ORDER BY m.Identifier, m.Frequency;
 "
 ```
 
+Step 2: using ggplot to graph, setting frequency as x-axis; Mean absorbance as y-axis; and identifier as the color to distinct between studies.
+
 ```{r}
 graph_plot <- dbGetQuery(con_wai, graph_data)
 
@@ -80,11 +86,13 @@ ggplot(graph_plot, aes(x = Frequency, y = MeanAbsorbance, color = Identifier)) +
 
 ```
 
-The graph displays the mean absorbance (on y-axis) across different frequencies (Hz) (on x-axis) for multiple studies, each represented by a distinct line. The graph compares how absorbance patterns vary by frequency among studies using different systems.
+The graph displays the mean absorbance on y-axis across different frequencies (Hz) on x-axis for multiple studies, each represented by a distinct colored line. The graph compares how absorbance patterns vary by frequency among studies using different systems.
 
 # Part 2 - Specific Group of interest
 
 For part 2, we are examining subjects with different race, especially Black and Caucasian.
+
+Similar to the first part, we start by selecting the components we need and here I was hoping to identity the studies with more than one distinct race and also to have at least one subject with a known race within these studies.
 
 ```{sql connection=con_wai}
 SELECT 
@@ -114,6 +122,8 @@ print(diverse_studies)
 
 ```
 
+Then, using the information we retrieved, calculate and summarize mean absorbance values for specific studies across different frequencies for two racial groups, in this case is "Black" and "Caucasian".
+
 ```{sql connection=con_wai}
 
 SELECT 
@@ -132,7 +142,7 @@ WHERE m.Identifier IN ('Abur_2014', 'Feeney_2017', 'Groon_2015',
   AND m.Frequency > 200            
   AND m.Frequency < 8000
   AND m.Absorbance >= 0            
-  AND s.Race IN ( 'Chinese', 'Caucasian')   
+  AND s.Race IN ( 'Black', 'Caucasian')   
 GROUP BY m.Identifier, s.Race, m.Frequency 
 ORDER BY m.Identifier, s.Race, m.Frequency;
 
@@ -168,6 +178,8 @@ data_absorption <- dbGetQuery(con_wai, query_race)
 head(data_absorption)
 ```
 
+Next, we use ggplot to plot the graph, same as part 1, Frequency as x-axis; MeanAbsorbance as y-axis; however, here the color will be GroupName which will be different group of subject, indicating different races.
+
 ```{r}
 
 ggplot(data_absorption, aes(x = Frequency, y = MeanAbsorbance, color = GroupName)) +
@@ -183,3 +195,7 @@ ggplot(data_absorption, aes(x = Frequency, y = MeanAbsorbance, color = GroupName
   theme_minimal()
 
 ```
+
+This graph presents the mean absorbance on the y-axis across frequencies (Hz) on the x-axis for Black and Caucasian subjects, with separate panels representing data from different studies. It highlights variations in absorbance patterns by race within each study, showing both similarities and potential differences in the trends across frequencies.
+
+For the Lewis_2015 study and Rosowski_2012 study, both display minimal or no differences in absorbance between Black and Caucasian subjects, however, for the Shaver_2013 and Sun_2016 studies, both indicate significant racial differences, with Black subjects generally exhibiting higher absorbance, especially at lower and mid-frequencies. While Shahnaz_2006 lacks data for Black subjects, therefore there is only one line. Overall, racial differences in absorbance trends appear study-specific, with some studies showing marked variation and others showing uniformity.
