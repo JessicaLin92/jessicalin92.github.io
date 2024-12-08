@@ -164,8 +164,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#part-one-first-character-of-the-production-title" id="toc-part-one-first-character-of-the-production-title" class="nav-link active" data-scroll-target="#part-one-first-character-of-the-production-title">Part One: First Character of the Production Title</a></li>
+  <li><a href="#part-two-first-number-of-the-production-title" id="toc-part-two-first-number-of-the-production-title" class="nav-link" data-scroll-target="#part-two-first-number-of-the-production-title">Part Two: First Number of the Production Title</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -197,7 +204,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>show_col_types <span class="ot">=</span> <span class="cn">FALSE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>So for this project, we will be looking at the Netflix products that are filmed in United states only.</p>
+<section id="part-one-first-character-of-the-production-title" class="level2">
+<h2 class="anchored" data-anchor-id="part-one-first-character-of-the-production-title">Part One: First Character of the Production Title</h2>
+<p>For this project, we will be looking at the Netflix products that are filmed in United states only. In order to accomplish this, we apply a filter in the country column that detect strings “United States”, and remove anything that has n/a by filtering as well. For the purpose of out project, the three main variables we need will be the title, country, and the type of the Netflix product, thus, we use select to select these variables.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
@@ -207,7 +216,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(title, country, type) <span class="sc">|&gt;</span> </span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(everything))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Next, we will find out the first letter of the Netflix productions, and calculate the occurrences of each letter in the Netflix productions</p>
+<p>Now we have obtain the relevant information, we will find out the first letter of the Netflix productions, and calculate the occurrences of each letter in the Netflix productions.</p>
+<p>To do this, we apply filter to detect any titles that starts with any character from A to Z. We don’t necessarily need to worry about case-sensitivity here since we are dealing with the first letter of the title which will always be capitalized already. Then I extract the first character from all the titles and further group by the characters to count them.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>N_firstword <span class="ot">&lt;-</span> USfilms <span class="sc">|&gt;</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(<span class="fu">str_detect</span>(title, <span class="st">"^[A-Z]"</span>)) <span class="sc">|&gt;</span></span>
@@ -234,14 +244,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 # ℹ 3,231 more rows</code></pre>
 </div>
 </div>
-<p>Now we can visualize it!</p>
+<p>With the information of each letter and the occurrences now we can visualize it by using a ggplot to create a bar chart!</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(N_firstword, <span class="fu">aes</span>(<span class="at">x=</span> first_word, <span class="at">fill=</span>type)) <span class="sc">+</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Occurrences of different first letter in US Netflix Productions"</span>,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"First Letter (A ~Z)"</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"First Letter of the title (A ~Z)"</span>,</span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Number of Occurrences"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
@@ -251,8 +261,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>So according to the list, the most first letter in the US Netflix production is “T” which is pretty easy to understand since most of the movie may start with the word ‘The’.</p>
-<p>Now I am wondering about how much US netflix production are starting in numbers and their occurrences.</p>
+<p>According to the graph, the most frequent first letter in the US Netflix production is “T” with a somewhat balanced distribution between movies and TV shows, the reason behind this is pretty easy to understand since most of the movie and TV shows may start with the word ‘The’.</p>
+</section>
+<section id="part-two-first-number-of-the-production-title" class="level2">
+<h2 class="anchored" data-anchor-id="part-two-first-number-of-the-production-title">Part Two: First Number of the Production Title</h2>
+<p>In addition to our part 1, now we are examining the different numbers as the first digit of the Netflix production title particularly the ones made in US. For this project, we can continuing using the information we obtained in the first part. However, for part two, we will use filter to detect titles that starts with a digit. Also, repeating a similar step of extracting the first digit and group by the numbers to better have a count of the occurrences.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>N_firstdigit <span class="ot">&lt;-</span> USfilms <span class="sc">|&gt;</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(title, <span class="st">"^</span><span class="sc">\\</span><span class="st">d+"</span>)) <span class="sc">|&gt;</span></span>
@@ -294,22 +307,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>So the graph displays a pretty interesting fact, which is that the digit “1” appear the most in both movies and TV shows in US Netflix production. I suspect that the reason may be because Many documentary titles or reality shows often include a numeric element, such as rankings or competitions, and those often start with number ‘1’.</p>
-<p>Some other interesting fact is that there is no TV shows title that starts with the digit ‘4’ and there is no Movies title that starts with the digit ‘7’ in the US Netflix production.</p>
+<p>The graph also displays a pretty interesting fact, which is that the digit “1” appear the most in both movies and TV shows in US Netflix production. I suspect that the reason may be because Many documentary titles or reality shows often include a numeric element, such as rankings or competitions, and those often start with number ‘1’.</p>
+<p>Some other interesting fact is that there is no TV shows title that starts with the digit ‘2’ or ‘4’ and there is no Movies title that starts with the digit ‘7’ in the US Netflix production.</p>
 <section id="insight" class="level4">
 <h4 class="anchored" data-anchor-id="insight">Insight</h4>
 <p>The analysis of first letters in US Netflix productions reveals some intriguing patterns:</p>
 <ul>
 <li><p>Dominance of “T”: The letter “T” is the most common starting letter for titles. This is likely due to the prevalence of titles that begin with “The,” a common article in English.</p></li>
 <li><p>Prevalence of the Digit “1”: The digit “1” appears most frequently as the starting digit in both movies and TV shows.</p></li>
-<li><p>Absence of Titles Starting with Certain Digits: There are no TV shows starting with the digit “4,” possibly indicating a lack of popular content or marketing focus. Similarly, no movies begin with “7,” which may reflect industry naming trends or a scarcity of suitable productions.</p></li>
+<li><p>Absence of Titles Starting with Certain Digits: There are no TV shows starting with the digit “2” or “4,” possibly indicating a lack of popular content or marketing focus. Similarly, no movies begin with “7,” which may reflect industry naming trends or a scarcity of suitable productions.</p></li>
 </ul>
 </section>
 <section id="reference" class="level4">
 <h4 class="anchored" data-anchor-id="reference">Reference</h4>
-<p>The data set Netflix_Titles comes from <a href="https://www.kaggle.com/datasets/shivamb/netflix-shows">Kaggle</a> w/ credit to Shivam Bansal.</p>
+<p>The data set Netflix_Titles comes from <a href="https://www.kaggle.com/datasets/shivamb/netflix-shows">Kaggle</a> w/ credit to <a href="https://www.kaggle.com/shivamb">Shivam Bansal</a>, who is an experienced data science professional with a blend of full-stack engineering skills, pre-sales, and business skills. He is also a director for smaller scale video contents, to which inspired he to collect and update the data-sets for not just Netflix, but also many other video streaming platforms such as <a href="https://www.kaggle.com/datasets/shivamb/amazon-prime-movies-and-tv-shows">Amazon Prime</a> , <a href="https://www.kaggle.com/datasets/shivamb/disney-movies-and-tv-shows">Disney+</a>, and <a href="https://www.kaggle.com/datasets/shivamb/hulu-movies-and-tv-shows">Hulu</a>.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

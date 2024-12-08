@@ -2,11 +2,15 @@
 title: "About Me"
 ---
 
-# Education
+## Education
 
-Bachelor of Arts (B.A.) in Organizational Studies and Psychology; Minor in Data Science.
+**Kaohsiung American School**: High School diploma
 
-# Professional Experience
+**Pitzer College**: Bachelor of Arts (B.A.) in Organizational Studies and Psychology; Minor in Data Science.
+
+## Professional Experience
+
+Admission operation Assistant
 
 International Students Orientation Assistant
 
@@ -14,7 +18,7 @@ Student Success Assistant
 
 Academic Guide
 
-# Leaderships
+## Leaderships
 
 Pitzer International Students Association (PISA)
 

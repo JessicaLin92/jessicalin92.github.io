@@ -15,7 +15,9 @@ netflix_titles <- readr::read_csv('https://raw.githubusercontent.com/rfordatasci
 show_col_types = FALSE
 ```
 
-So for this project, we will be looking at the Netflix products that are filmed in United states only.
+## Part One: First Character of the Production Title
+
+For this project, we will be looking at the Netflix products that are filmed in United states only. In order to accomplish this, we apply a filter in the country column that detect strings "United States", and remove anything that has n/a by filtering as well. For the purpose of out project, the three main variables we need will be the title, country, and the type of the Netflix product, thus, we use select to select these variables.
 
 ```{r, warning=FALSE, message=FALSE}
 library(dplyr)
@@ -27,7 +29,9 @@ USfilms <- netflix_titles |>
   filter(!is.na(everything))
 ```
 
-Next, we will find out the first letter of the Netflix productions, and calculate the occurrences of each letter in the Netflix productions
+Now we have obtain the relevant information, we will find out the first letter of the Netflix productions, and calculate the occurrences of each letter in the Netflix productions.
+
+To do this, we apply filter to detect any titles that starts with any character from A to Z. We don't necessarily need to worry about case-sensitivity here since we are dealing with the first letter of the title which will always be capitalized already. Then I extract the first character from all the titles and further group by the characters to count them.
 
 ```{r, warning=FALSE, message=FALSE}
 N_firstword <- USfilms |>
@@ -39,7 +43,7 @@ filter(str_detect(title, "^[A-Z]")) |>
 print(N_firstword)
 ```
 
-Now we can visualize it!
+With the information of each letter and the occurrences now we can visualize it by using a ggplot to create a bar chart!
 
 ```{r, warning=FALSE, message=FALSE}
 library(ggplot2)
@@ -47,14 +51,16 @@ library(ggplot2)
 ggplot(N_firstword, aes(x= first_word, fill=type)) +
    geom_bar() +
   labs(title = "Occurrences of different first letter in US Netflix Productions",
-       x = "First Letter (A ~Z)",
+       x = "First Letter of the title (A ~Z)",
        y = "Number of Occurrences") 
  
 ```
 
-So according to the list, the most first letter in the US Netflix production is "T" which is pretty easy to understand since most of the movie may start with the word 'The'.
+According to the graph, the most frequent first letter in the US Netflix production is "T" with a somewhat balanced distribution between movies and TV shows, the reason behind this is pretty easy to understand since most of the movie and TV shows may start with the word 'The'.
 
-Now I am wondering about how much US netflix production are starting in numbers and their occurrences.
+## Part Two: First Number of the Production Title
+
+In addition to our part 1, now we are examining the different numbers as the first digit of the Netflix production title particularly the ones made in US. For this project, we can continuing using the information we obtained in the first part. However, for part two, we will use filter to detect titles that starts with a digit. Also, repeating a similar step of extracting the first digit and group by the numbers to better have a count of the occurrences.
 
 ```{r, warning=FALSE, message=FALSE}
 N_firstdigit <- USfilms |>
@@ -76,9 +82,9 @@ And now we visualize it!
        y = "Number of Occurrences") 
 ```
 
-So the graph displays a pretty interesting fact, which is that the digit "1" appear the most in both movies and TV shows in US Netflix production. I suspect that the reason may be because Many documentary titles or reality shows often include a numeric element, such as rankings or competitions, and those often start with number '1'.
+The graph also displays a pretty interesting fact, which is that the digit "1" appear the most in both movies and TV shows in US Netflix production. I suspect that the reason may be because Many documentary titles or reality shows often include a numeric element, such as rankings or competitions, and those often start with number '1'.
 
-Some other interesting fact is that there is no TV shows title that starts with the digit '4' and there is no Movies title that starts with the digit '7' in the US Netflix production.
+Some other interesting fact is that there is no TV shows title that starts with the digit '2' or '4' and there is no Movies title that starts with the digit '7' in the US Netflix production.
 
 #### Insight
 
@@ -88,8 +94,8 @@ The analysis of first letters in US Netflix productions reveals some intriguing 
 
 -   Prevalence of the Digit "1": The digit "1" appears most frequently as the starting digit in both movies and TV shows.
 
--   Absence of Titles Starting with Certain Digits: There are no TV shows starting with the digit "4," possibly indicating a lack of popular content or marketing focus. Similarly, no movies begin with "7," which may reflect industry naming trends or a scarcity of suitable productions.
+-   Absence of Titles Starting with Certain Digits: There are no TV shows starting with the digit "2" or "4," possibly indicating a lack of popular content or marketing focus. Similarly, no movies begin with "7," which may reflect industry naming trends or a scarcity of suitable productions.
 
 #### Reference
 
-The data set Netflix_Titles comes from [Kaggle](https://www.kaggle.com/datasets/shivamb/netflix-shows) w/ credit to Shivam Bansal.
+The data set Netflix_Titles comes from [Kaggle](https://www.kaggle.com/datasets/shivamb/netflix-shows) w/ credit to [Shivam Bansal](https://www.kaggle.com/shivamb), who is an experienced data science professional with a blend of full-stack engineering skills, pre-sales, and business skills. He is also a director for smaller scale video contents, to which inspired he to collect and update the data-sets for not just Netflix, but also many other video streaming platforms such as [Amazon Prime](https://www.kaggle.com/datasets/shivamb/amazon-prime-movies-and-tv-shows) , [Disney+](https://www.kaggle.com/datasets/shivamb/disney-movies-and-tv-shows), and [Hulu](https://www.kaggle.com/datasets/shivamb/hulu-movies-and-tv-shows).

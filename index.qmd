@@ -1,19 +1,17 @@
 ---
-title: "Jessica (YongJie) Lin"
+title: "Welcome! This is Jessica's website"
 ---
-<img src="https://t0.gstatic.com/licensed-image?q=tbn:ANd9GcQUV_5FvpgGgsC8N46PD4CVNiBmgTv-s6EogkH_-eCC84cTK5IewL7VruWufXXF4syZ" alt="Puppy" width="500px" style="display: block; margin-left: auto; margin-right: auto;">
 
-This is Jessica's website.
+![](images/IMG_1062.JPG){fig-align="center" width="533"}
 
-Welcome! I am a junior student at Pitzer studying Organizational Studies and Psychology, with a minor in data science.
+# Hello! Nice to meet you!
 
-# Contact information
+My name is Jessica, I am a international student from Taiwan, and currently a junior at Pitzer College, pursuing a combined major in Organizational Studies and Psychology with a minor in Data Science. My academic journey has equipped me with a strong understanding of human behavior and organizational dynamics, allowing me to explore the intersection of psychology and effective management practices along with my data analysis skills.
+
+# Let's stay connected!
+
 [LinkedIn](https://www.linkedin.com/in/jessicalinyongjie/)
 
 [GitHub](https://github.com/JessicaLin92/jessicalin92.github.io/blob/main/docs/index.html)
 
-[Email: jeslin@students.pitzer.edu](jeslin@students.pitzer.edu)
-
-```{r}
-
-```
+Email:[jeslin\@students.pitzer.edu](jeslin@students.pitzer.edu)
