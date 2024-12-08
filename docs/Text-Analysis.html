@@ -153,6 +153,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./Presentation.html"> 
+<span class="menu-text">Presentattion</span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -220,10 +224,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>To do this, we apply filter to detect any titles that starts with any character from A to Z. We don’t necessarily need to worry about case-sensitivity here since we are dealing with the first letter of the title which will always be capitalized already. Then I extract the first character from all the titles and further group by the characters to count them.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>N_firstword <span class="ot">&lt;-</span> USfilms <span class="sc">|&gt;</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(<span class="fu">str_detect</span>(title, <span class="st">"^[A-Z]"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">first_word =</span> <span class="fu">str_extract</span>(title, <span class="st">"^</span><span class="sc">\\</span><span class="st">w"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(first_word) <span class="sc">|&gt;</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">count =</span> <span class="fu">n</span>())</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(<span class="fu">str_detect</span>(title, <span class="st">"^[A-Z]"</span>)) <span class="sc">|&gt;</span> <span class="co"># Filter titles starting with uppercase letters</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">first_word =</span> <span class="fu">str_extract</span>(title, <span class="st">"^</span><span class="sc">\\</span><span class="st">w"</span>)) <span class="sc">|&gt;</span> <span class="co"># Extract the first word (not just the first letter)</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(first_word) <span class="sc">|&gt;</span> <span class="co"># Group by the first word</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">count =</span> <span class="fu">n</span>()) <span class="co"># Add a count of occurrences within each group</span></span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(N_firstword)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">

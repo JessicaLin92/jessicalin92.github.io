@@ -1,0 +1,98 @@
+---
+title: "Presentation"
+author: "Jessica Lin"
+subtitle: "Dec 9"
+format:
+  revealjs:
+    scrollable: true
+    slide-number: true
+    show-slide-number: all
+    embed-resources: true
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## Project: Text Analysis
+
+-   str\_\*() functions and regular expressions
+-   Netflix Movies and TV Shows Data set
+-   The data set comes from Kaggle w/ credit to Shivam Bansal
+```{r, warning=FALSE, message=FALSE}
+library("tidytuesdayR")
+library("tidyverse")
+
+netflix_titles <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-20/netflix_titles.csv')
+
+show_col_types = FALSE
+```
+
+## Shivam Bansal
+
+-   An experienced data science professional with a blend of full-stack engineering skills, pre-sales, and business skills
+-   A director for smaller scale video contents
+-   Data-sets for not just Netflix, but also many other video streaming platforms such as Amazon Prime, Disney+, and Hulu.
+
+## Focus on US based productions
+```{r}
+library(dplyr)
+library(stringr)
+
+USfilms <- netflix_titles |> 
+    filter(str_detect(country, "United States")) |> # Filter for US-based titles
+  select(title, country, type) |> # Select only the relevant columns
+  filter(!is.na(everything)) # Remove rows with NA values in any of the selected columns
+```
+
+## Organize the data to find first character 
+```{r, warning=FALSE, message=FALSE}
+N_firstword <- USfilms |>
+filter(str_detect(title, "^[A-Z]")) |> # Filter titles starting with uppercase letters
+  mutate(first_word = str_extract(title, "^\\w")) |> # Extract the first word (not just the first letter)
+  group_by(first_word) |> # Group by the first word
+  mutate(count = n()) # Add a count of occurrences within each group
+
+print(N_firstword)
+```
+
+## ggplot 
+```{r, warning=FALSE, message=FALSE}
+library(ggplot2)
+
+ggplot(N_firstword, aes(x= first_word, fill=type)) +
+   geom_bar() +
+  labs(title = "Occurrences of different first letter in US Netflix Productions",
+       x = "First Letter of the title (A ~Z)",
+       y = "Number of Occurrences") 
+```
+
+## Organize the data to find first digit 
+```{r, warning=FALSE, message=FALSE}
+N_firstdigit <- USfilms |>
+  filter(str_detect(title, "^\\d+")) |>
+  mutate(first_digit = str_extract(title, "^\\d")) |>
+  group_by(first_digit) |>
+  mutate(count = n())
+
+print(N_firstdigit)
+```
+
+## ggplot
+```{r, warning=FALSE, message=FALSE}
+ ggplot(N_firstdigit, aes(x= first_digit, fill=type)) +
+   geom_bar() +
+  labs(title = "Occurrences of different first digit in US Netflix Productions",
+       x = "First Digit (0~9)",
+       y = "Number of Occurrences") 
+```
+
+## insight 
+The analysis of first letters in US Netflix productions reveals some intriguing patterns:
+
+-   Dominance of "T": The letter "T" is the most common starting letter for titles. This is likely due to the prevalence of titles that begin with "The," a common article in English.
+
+-   Prevalence of the Digit "1": The digit "1" appears most frequently as the starting digit in both movies and TV shows.
+
+-   Absence of Titles Starting with Certain Digits: There are no TV shows starting with the digit "2" or "4," possibly indicating a lack of popular content or marketing focus. Similarly, no movies begin with "7," which may reflect industry naming trends or a scarcity of suitable productions.
+

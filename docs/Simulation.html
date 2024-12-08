@@ -153,6 +153,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./Presentation.html"> 
+<span class="menu-text">Presentattion</span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -164,8 +168,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link active" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -189,7 +199,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>For this project, we aimed to construct a simulation of students doing course registration at the Claremont Colleges. In order to create this simulation, We first defined a function that simulate the regiration action, next we assign students into a list that represent the order of course registration time. Last, we define the result for whether one particular student can get into the class such as 1 being True: the student can get into the class, or 0 being False: the student would not get into the class.</p>
+<p>For this project, we aimed to construct a simulation of students doing course registration at the Claremont Colleges. In order to create this simulation, We first defined a function that simulate the registration action, next we assign students into a list that represent the order of course registration time. Last, we define the result for whether one particular student can get into the class such as 1 being True: the student can get into the class, or 0 being False: the student would not get into the class.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>simulate_registration <span class="ot">&lt;-</span> <span class="cf">function</span>(class_size, num_students, <span class="at">priority_weight =</span> <span class="cn">NULL</span>) {</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(priority_weight)) {</span>
@@ -220,7 +230,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Probability that student #1 gets a spot:"</span>, probability))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Probability that student #1 gets a spot: 0.412"</code></pre>
+<pre><code>[1] "Probability that student #1 gets a spot: 0.41"</code></pre>
 </div>
 </div>
 <p>After a few trials of 1000 times simulations, the general probability value we are getting are between 0.38 ~ 0.42, which basically concluded that for this course registration simulation with 50 students trying to get in a 20 spot class, the probability of getting in is around 0.4.</p>
@@ -246,7 +256,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>This plot display the results of the 1000 trials that we run, and within these 1000 times, whether the student gets into the class. 1 being they did manager to get into the class, and 0 being they didn’t.</p>
-<p>#Conclusion</p>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
 <p>For this project, we use R to simulate the course registration event here at 5C colleges, although the numbers we input are very much based on assumptions, we do successfully use R to simulate and get a sense of the probabilities of 1 student getting into the class that 50 students are interested in.</p>
 <p>Some possible limitation or improvement for future simulation:</p>
 <ul>
@@ -255,6 +266,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -35,10 +35,10 @@ To do this, we apply filter to detect any titles that starts with any character 
 
 ```{r, warning=FALSE, message=FALSE}
 N_firstword <- USfilms |>
-filter(str_detect(title, "^[A-Z]")) |>
-  mutate(first_word = str_extract(title, "^\\w")) |>
-  group_by(first_word) |>
-  mutate(count = n())
+filter(str_detect(title, "^[A-Z]")) |> # Filter titles starting with uppercase letters
+  mutate(first_word = str_extract(title, "^\\w")) |> # Extract the first word (not just the first letter)
+  group_by(first_word) |> # Group by the first word
+  mutate(count = n()) # Add a count of occurrences within each group
 
 print(N_firstword)
 ```
