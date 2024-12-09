@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Project 2: Text Analysis – JessicaLin92.github.io</title>
+<title>shinyapp – JessicaLin92.github.io</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,40 +19,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -101,6 +67,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -177,161 +172,43 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#part-one-first-character-of-the-production-title" id="toc-part-one-first-character-of-the-production-title" class="nav-link active" data-scroll-target="#part-one-first-character-of-the-production-title">Part One: First Character of the Production Title</a></li>
-  <li><a href="#part-two-first-number-of-the-production-title" id="toc-part-two-first-number-of-the-production-title" class="nav-link" data-scroll-target="#part-two-first-number-of-the-production-title">Part Two: First Number of the Production Title</a></li>
+  <li><a href="#shiny-app---extracredit" id="toc-shiny-app---extracredit" class="nav-link active" data-scroll-target="#shiny-app---extracredit">Shiny App - ExtraCredit</a></li>
+  <li><a href="#define-your-ui" id="toc-define-your-ui" class="nav-link" data-scroll-target="#define-your-ui">Define your UI</a></li>
+  <li><a href="#define-your-server-logic" id="toc-define-your-server-logic" class="nav-link" data-scroll-target="#define-your-server-logic">Define your server logic</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Project 2: Text Analysis</h1>
-</div>
 
 
 
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"tidytuesdayR"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"tidyverse"</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>netflix_titles <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-20/netflix_titles.csv'</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>show_col_types <span class="ot">=</span> <span class="cn">FALSE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<section id="part-one-first-character-of-the-production-title" class="level2">
-<h2 class="anchored" data-anchor-id="part-one-first-character-of-the-production-title">Part One: First Character of the Production Title</h2>
-<p>For this project, we will be looking at the Netflix products that are filmed in United states only. In order to accomplish this, we apply a filter in the country column that detect strings “United States”, and remove anything that has n/a by filtering as well. For the purpose of out project, the three main variables we need will be the title, country, and the type of the Netflix product, thus, we use select to select these variables.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>USfilms <span class="ot">&lt;-</span> netflix_titles <span class="sc">|&gt;</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="fu">str_detect</span>(country, <span class="st">"United States"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(title, country, type) <span class="sc">|&gt;</span> </span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(everything))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Now we have obtain the relevant information, we will find out the first letter of the Netflix productions, and calculate the occurrences of each letter in the Netflix productions.</p>
-<p>To do this, we apply filter to detect any titles that starts with any character from A to Z. We don’t necessarily need to worry about case-sensitivity here since we are dealing with the first letter of the title which will always be capitalized already. Then I extract the first character from all the titles and further group by the characters to count them.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>N_firstword <span class="ot">&lt;-</span> USfilms <span class="sc">|&gt;</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(<span class="fu">str_detect</span>(title, <span class="st">"^[A-Z]"</span>)) <span class="sc">|&gt;</span> <span class="co"># Filter titles starting with uppercase letters</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">first_word =</span> <span class="fu">str_extract</span>(title, <span class="st">"^</span><span class="sc">\\</span><span class="st">w"</span>)) <span class="sc">|&gt;</span> <span class="co"># Extract the first word (not just the first letter)</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(first_word) <span class="sc">|&gt;</span> <span class="co"># Group by the first word</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">count =</span> <span class="fu">n</span>()) <span class="co"># Add a count of occurrences within each group</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(N_firstword)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3,241 × 5
-# Groups:   first_word [26]
-   title                                   country        type  first_word count
-   &lt;chr&gt;                                   &lt;chr&gt;          &lt;chr&gt; &lt;chr&gt;      &lt;int&gt;
- 1 A 3 Minute Hug                          Mexico, Unite… Movie A            223
- 2 A Babysitter's Guide to Monster Hunting United States  Movie A            223
- 3 A Bad Moms Christmas                    United States… Movie A            223
- 4 A Boy Called Po                         United States  Movie A            223
- 5 A Bridge Too Far                        United States… Movie A            223
- 6 A California Christmas                  United States  Movie A            223
- 7 A Champion Heart                        United States  Movie A            223
- 8 A Christmas Prince                      United States  Movie A            223
- 9 A Christmas Prince: The Royal Baby      United States  Movie A            223
-10 A Christmas Prince: The Royal Wedding   United States  Movie A            223
-# ℹ 3,231 more rows</code></pre>
-</div>
-</div>
-<p>With the information of each letter and the occurrences now we can visualize it by using a ggplot to create a bar chart!</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(N_firstword, <span class="fu">aes</span>(<span class="at">x=</span> first_word, <span class="at">fill=</span>type)) <span class="sc">+</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Occurrences of different first letter in US Netflix Productions"</span>,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"First Letter of the title (A ~Z)"</span>,</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Number of Occurrences"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Text-Analysis_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>According to the graph, the most frequent first letter in the US Netflix production is “T” with a somewhat balanced distribution between movies and TV shows, the reason behind this is pretty easy to understand since most of the movie and TV shows may start with the word ‘The’.</p>
+<section id="shiny-app---extracredit" class="level1">
+<h1>Shiny App - ExtraCredit</h1>
+<p>This is a Rock Paper Scissor Game for my Extra Credit Shiny project</p>
+<p>library(shiny)</p>
 </section>
-<section id="part-two-first-number-of-the-production-title" class="level2">
-<h2 class="anchored" data-anchor-id="part-two-first-number-of-the-production-title">Part Two: First Number of the Production Title</h2>
-<p>In addition to our part 1, now we are examining the different numbers as the first digit of the Netflix production title particularly the ones made in US. For this project, we can continuing using the information we obtained in the first part. However, for part two, we will use filter to detect titles that starts with a digit. Also, repeating a similar step of extracting the first digit and group by the numbers to better have a count of the occurrences.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>N_firstdigit <span class="ot">&lt;-</span> USfilms <span class="sc">|&gt;</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(title, <span class="st">"^</span><span class="sc">\\</span><span class="st">d+"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">first_digit =</span> <span class="fu">str_extract</span>(title, <span class="st">"^</span><span class="sc">\\</span><span class="st">d"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(first_digit) <span class="sc">|&gt;</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">count =</span> <span class="fu">n</span>())</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(N_firstdigit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 49 × 5
-# Groups:   first_digit [8]
-   title            country                        type    first_digit count
-   &lt;chr&gt;            &lt;chr&gt;                          &lt;chr&gt;   &lt;chr&gt;       &lt;int&gt;
- 1 9                United States                  Movie   9               2
- 2 21               United States                  Movie   2               8
- 3 187              United States                  Movie   1              21
- 4 1922             United States                  Movie   1              21
- 5 1983             Poland, United States          TV Show 1              21
- 6 3022             United States                  Movie   3               5
- 7 22-Jul           Norway, Iceland, United States Movie   2               8
- 8 1 Chance 2 Dance United States                  Movie   1              21
- 9 1 Mile to You    United States                  Movie   1              21
-10 10,000 B.C.      United States, South Africa    Movie   1              21
-# ℹ 39 more rows</code></pre>
-</div>
-</div>
-<p>And now we visualize it!</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">ggplot</span>(N_firstdigit, <span class="fu">aes</span>(<span class="at">x=</span> first_digit, <span class="at">fill=</span>type)) <span class="sc">+</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Occurrences of different first digit in US Netflix Productions"</span>,</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"First Digit (0~9)"</span>,</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Number of Occurrences"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Text-Analysis_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>The graph also displays a pretty interesting fact, which is that the digit “1” appear the most in both movies and TV shows in US Netflix production. I suspect that the reason may be because Many documentary titles or reality shows often include a numeric element, such as rankings or competitions, and those often start with number ‘1’.</p>
-<p>Some other interesting fact is that there is no TV shows title that starts with the digit ‘2’ or ‘4’ and there is no Movies title that starts with the digit ‘7’ in the US Netflix production.</p>
-<section id="insight" class="level4">
-<h4 class="anchored" data-anchor-id="insight">Insight</h4>
-<p>The analysis of first letters in US Netflix productions reveals some intriguing patterns:</p>
-<ul>
-<li><p>Dominance of “T”: The letter “T” is the most common starting letter for titles. This is likely due to the prevalence of titles that begin with “The,” a common article in English.</p></li>
-<li><p>Prevalence of the Digit “1”: The digit “1” appears most frequently as the starting digit in both movies and TV shows.</p></li>
-<li><p>Absence of Titles Starting with Certain Digits: There are no TV shows starting with the digit “2” or “4,” possibly indicating a lack of popular content or marketing focus. Similarly, no movies begin with “7,” which may reflect industry naming trends or a scarcity of suitable productions.</p></li>
-</ul>
+<section id="define-your-ui" class="level1">
+<h1>Define your UI</h1>
+<p>ui &lt;- fluidPage( titlePanel(“Rock-Paper-Scissors Game”), sidebarLayout( sidebarPanel( h3(“Choose your move:”), radioButtons(“user_choice”, “Your choice:”, choices = list(“Rock”, “Paper”, “Scissors”), selected = “Rock”), actionButton(“play”, “Play Game”) ), mainPanel( h4(“Game Result:”), textOutput(“result”), br(), textOutput(“computer_choice”), br(), textOutput(“score”) ) ) )</p>
 </section>
-<section id="reference" class="level4">
-<h4 class="anchored" data-anchor-id="reference">Reference</h4>
-<p>The data set Netflix_Titles comes from <a href="https://www.kaggle.com/datasets/shivamb/netflix-shows">Kaggle</a> w/ credit to <a href="https://www.kaggle.com/shivamb">Shivam Bansal</a>, who is an experienced data science professional with a blend of full-stack engineering skills, pre-sales, and business skills. He is also a director for smaller scale video contents, to which inspired he to collect and update the data-sets for not just Netflix, but also many other video streaming platforms such as <a href="https://www.kaggle.com/datasets/shivamb/amazon-prime-movies-and-tv-shows">Amazon Prime</a> , <a href="https://www.kaggle.com/datasets/shivamb/disney-movies-and-tv-shows">Disney+</a>, and <a href="https://www.kaggle.com/datasets/shivamb/hulu-movies-and-tv-shows">Hulu</a>.</p>
+<section id="define-your-server-logic" class="level1">
+<h1>Define your server logic</h1>
+<p>server &lt;- function(input, output, session) { score &lt;- reactiveVal(list(user = 0, computer = 0)) computer_choice &lt;- function() { sample(c(“Rock”, “Paper”, “Scissors”), 1) }</p>
+<p>determine_winner &lt;- function(user, computer) { if (user == computer) { return(“It’s a tie!”) } if ((user == “Rock” &amp;&amp; computer == “Scissors”) || (user == “Paper” &amp;&amp; computer == “Rock”) || (user == “Scissors” &amp;&amp; computer == “Paper”)) { return(“You win!”) } else { return(“Computer wins!”) } }</p>
+<p>update_score &lt;- function(winner) { current_score &lt;- score() if (winner == “You win!”) { current_score<span class="math inline">\(user &lt;- current_score\)</span>user + 1 } else if (winner == “Computer wins!”) { current_score<span class="math inline">\(computer &lt;- current_score\)</span>computer + 1 } score(current_score) }</p>
+<p>observeEvent(input<span class="math inline">\(play, {
+    user_move &lt;- input\)</span>user_choice comp_move &lt;- computer_choice() game_result &lt;- determine_winner(user_move, comp_move) update_score(game_result)</p>
+<pre><code>output$result &lt;- renderText({ game_result })
+output$computer_choice &lt;- renderText({ paste("Computer chose:", comp_move) })
+output$score &lt;- renderText({
+  paste("Score - You: ", score()$user, " Computer: ", score()$computer)
+})</code></pre>
+<p>}) }</p>
+<p>shinyApp(ui = ui, server = server)</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->

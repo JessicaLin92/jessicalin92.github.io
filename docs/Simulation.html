@@ -131,25 +131,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-project" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Project</span>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data-science-project" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Data Science Project</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-project">    
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-data-science-project">    
         <li>
     <a class="dropdown-item" href="./Data Viz.html">
- <span class="dropdown-text">Data Visualization</span></a>
+ <span class="dropdown-text">Project 1-Data Visualization</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./Text-Analysis.html">
- <span class="dropdown-text">Text Analysis</span></a>
+ <span class="dropdown-text">Project 2-Text Analysis</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./Simulation.html">
- <span class="dropdown-text">Simulation</span></a>
+ <span class="dropdown-text">Project 3-Simulation</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./SQL.html">
- <span class="dropdown-text">SQL</span></a>
+ <span class="dropdown-text">Project 4-SQL</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./shinyapp.html">
+ <span class="dropdown-text">ExtraCredit-Shiny Game</span></a>
   </li>  
     </ul>
   </li>
@@ -199,54 +203,55 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>For this project, we aimed to construct a simulation of students doing course registration at the Claremont Colleges. In order to create this simulation, We first defined a function that simulate the registration action, next we assign students into a list that represent the order of course registration time. Last, we define the result for whether one particular student can get into the class such as 1 being True: the student can get into the class, or 0 being False: the student would not get into the class.</p>
+<p>For this project, we aimed to construct a simulation of students doing course registration at the Claremont Colleges to obtain a quantitative information on the probability of getting into the class the student wanted.</p>
+<p>In order to create this simulation, We first defined a function that simulate the registration action, which take the class size and the number of students that is planning to take the class. next we random shuffle students into a list that represent the order of course registration time. Last, we define the result for whether one particular student can get into the class such True: the student can get into the class, or False: the student would not get into the class.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>simulate_registration <span class="ot">&lt;-</span> <span class="cf">function</span>(class_size, num_students, <span class="at">priority_weight =</span> <span class="cn">NULL</span>) {</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(priority_weight)) {</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    priority <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>num_students, num_students, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> priority_weight)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    priority_order <span class="ot">&lt;-</span> <span class="fu">order</span>(priority)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    priority_order <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>num_students)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>registered_students <span class="ot">&lt;-</span> priority_order[<span class="dv">1</span><span class="sc">:</span>class_size]</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">return</span>(<span class="fu">ifelse</span>(<span class="dv">1</span> <span class="sc">%in%</span> registered_students, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>))</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>simulate_registration <span class="ot">&lt;-</span> <span class="cf">function</span>(class_size, num_students) {</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  random <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>num_students)  <span class="co"># Randomly shuffle students</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  registered_students <span class="ot">&lt;-</span> random[<span class="dv">1</span><span class="sc">:</span>class_size]  <span class="co"># Select the first 'class_size' students</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">ifelse</span>(<span class="dv">1</span> <span class="sc">%in%</span> registered_students, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>))  <span class="co"># if the student is registered</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>After we finish setting up and defining the function, now we run it with map to rerun and simulate the event.For our simulation, because of how small the class at the Claremont colleges normally are, let’s put 20 as the class_size for this imaginary class. For the students number, although the total students number may be high, however, we should only consider the numnber of students that may be interested into taking this imaginary class, thus let’s assume there are 50 students wanting to get into this class. In turns of priorit weight, since all claremont colleges students register at the same time, the only difference is the grade year, therefore I am setting the order as seniors goes first, and then junior, then sophomore, and last will be freshman. For this 10 will be seniors, 10 will be juniors, and 10 will be sophomores, and the rest of the 20 students will be freshman.</p>
+<p>After we finish setting up and defining the function, now we run it with map to rerun and simulate the event. For our simulation, because of how small the class at the Claremont colleges normally are, let’s put 20 as the class_size for this imaginary class. For the students number, although the total students number may be high, however, we should only consider the number of students that may be interested into taking this imaginary class, thus let’s assume there are 50 students wanting to get into this class.</p>
 <p>For number of simulations, I choose to run 1000 times because in probability simulations, running multiple trials reduces random variability and gives a more stable estimate of the true probability.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>class_size <span class="ot">&lt;-</span> <span class="dv">20</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>num_students <span class="ot">&lt;-</span> <span class="dv">50</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>num_simulations <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>priority_weight <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="fl">0.4</span>, <span class="dv">10</span>), <span class="fu">rep</span>(<span class="fl">0.3</span>, <span class="dv">10</span>), <span class="fu">rep</span>(<span class="fl">0.2</span>, <span class="dv">10</span>), <span class="fu">rep</span>(<span class="fl">0.1</span>, <span class="dv">20</span>))</span>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>class_size <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>num_students <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>num_simulations <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Run simulations</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">map_int</span>(<span class="dv">1</span><span class="sc">:</span>num_simulations, <span class="sc">~</span> <span class="fu">simulate_registration</span>(<span class="at">class_size =</span> class_size, <span class="at">num_students =</span> num_students))</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">map_int</span>(<span class="dv">1</span><span class="sc">:</span>num_simulations, <span class="sc">~</span> <span class="fu">simulate_registration</span>(<span class="at">class_size =</span> class_size, <span class="at">num_students =</span> num_students, <span class="at">priority_weight =</span> priority_weight))</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>num_true <span class="ot">&lt;-</span> <span class="fu">sum</span>(results <span class="sc">==</span> <span class="dv">1</span>)</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>probability <span class="ot">&lt;-</span> num_true <span class="sc">/</span> num_simulations</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Probability that student #1 gets a spot:"</span>, probability))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the probability that student can gets a spot</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>num_true <span class="ot">&lt;-</span> <span class="fu">sum</span>(results <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>probability <span class="ot">&lt;-</span> num_true <span class="sc">/</span> num_simulations</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the result</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Probability that student 1 gets a spot:"</span>, probability))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Probability that student #1 gets a spot: 0.41"</code></pre>
+<pre><code>[1] "Probability that student 1 gets a spot: 0.403"</code></pre>
 </div>
 </div>
 <p>After a few trials of 1000 times simulations, the general probability value we are getting are between 0.38 ~ 0.42, which basically concluded that for this course registration simulation with 50 students trying to get in a 20 spot class, the probability of getting in is around 0.4.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Trial =</span> <span class="dv">1</span><span class="sc">:</span>num_simulations,</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">Outcome =</span> <span class="fu">as.factor</span>(results)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> Outcome)) <span class="sc">+</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Simulation of Course Registration"</span>,</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Outcome (1 = Got in, 0 = Did not get in)"</span>,</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Frequency"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>results_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">Status =</span> <span class="fu">c</span>(<span class="st">"Not Registered"</span>, <span class="st">"Registered"</span>),</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Proportion =</span> <span class="fu">c</span>(<span class="dv">1</span> <span class="sc">-</span> probability, probability)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(results_df, <span class="fu">aes</span>(<span class="at">x=</span> <span class="dv">1</span>, <span class="at">y =</span> Proportion, <span class="at">fill =</span> Status)) <span class="sc">+</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Proportion of Student Getting a Spot in the Class"</span>,</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">""</span>,</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Proportion"</span>) <span class="sc">+</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Registered"</span> <span class="ot">=</span> <span class="st">"lightgreen"</span>, <span class="st">"Not Registered"</span> <span class="ot">=</span> <span class="st">"gray"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -255,13 +260,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>This plot display the results of the 1000 trials that we run, and within these 1000 times, whether the student gets into the class. 1 being they did manager to get into the class, and 0 being they didn’t.</p>
+<p>This plot display the results that we run, which is whether the student gets into the class. As the graph displays, the proportion of a student getting into the class is slight below 50% particularly around the 40% range. On the other hand, the proportion of student not getting into the class they want is around 60%.</p>
 <section id="conclusion" class="level1">
 <h1>Conclusion</h1>
 <p>For this project, we use R to simulate the course registration event here at 5C colleges, although the numbers we input are very much based on assumptions, we do successfully use R to simulate and get a sense of the probabilities of 1 student getting into the class that 50 students are interested in.</p>
 <p>Some possible limitation or improvement for future simulation:</p>
 <ul>
 <li><p>Could potentially take the concept of ‘majors’ into consideration as they tends to have a prioritizes when registering for their major classes.</p></li>
+<li><p>Could take into consideration of the registration time being weighted towards upperclassman</p></li>
 <li><p>In the similar manner, we can also take into consideration of ‘perms’ since this is the way professor approve or disapprove students’ ability to register the class.</p></li>
 </ul>
 

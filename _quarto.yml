@@ -10,18 +10,19 @@ website:
         text: Home
       - href: about.qmd
         text: About
-      - text: Project
+      - text: Data Science Project
         menu: 
         - href: Data Viz.qmd
-          text: Data Visualization 
+          text: Project 1-Data Visualization 
         - href: Text-Analysis.qmd
-          text: Text Analysis
+          text: Project 2-Text Analysis
         - href: Simulation.qmd
-          text: Simulation
+          text: Project 3-Simulation
         - href: SQL.qmd
-          text: SQL 
+          text: Project 4-SQL 
       - href: Presentation.qmd
         text: Presentattion
+      
 
         
 
