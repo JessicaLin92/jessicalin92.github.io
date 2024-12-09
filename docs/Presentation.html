@@ -444,7 +444,7 @@
   <meta name="generator" content="quarto-1.5.57">
 
   <meta name="author" content="Jessica Lin">
-  <title>JessicaLin92.github.io – Presentation</title>
+  <title>JessicaLin92.github.io – US based Netflix Productions’ Naming trend</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -1209,7 +1209,7 @@ margin-right: 0; }
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Presentation</h1>
+  <h1 class="title">US based Netflix Productions’ Naming trend</h1>
   <p class="subtitle">Dec 9</p>
 
 <div class="quarto-title-authors">
@@ -1221,8 +1221,8 @@ Jessica Lin
 </div>
 
 </section>
-<section id="project-text-analysis" class="slide level2">
-<h2>Project: Text Analysis</h2>
+<section id="project-2-text-analysis" class="slide level2">
+<h2>Project 2: Text Analysis</h2>
 <ul>
 <li>str_*() functions and regular expressions</li>
 <li>Netflix Movies and TV Shows Data set</li>
@@ -1252,21 +1252,27 @@ Jessica Lin
 <span id="cb2-2"><a></a><span class="fu">library</span>(stringr)</span>
 <span id="cb2-3"><a></a></span>
 <span id="cb2-4"><a></a>USfilms <span class="ot">&lt;-</span> netflix_titles <span class="sc">|&gt;</span> </span>
-<span id="cb2-5"><a></a>    <span class="fu">filter</span>(<span class="fu">str_detect</span>(country, <span class="st">&quot;United States&quot;</span>)) <span class="sc">|&gt;</span> <span class="co"># Filter for US-based titles</span></span>
-<span id="cb2-6"><a></a>  <span class="fu">select</span>(title, country, type) <span class="sc">|&gt;</span> <span class="co"># Select only the relevant columns</span></span>
-<span id="cb2-7"><a></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(everything)) <span class="co"># Remove rows with NA values in any of the selected columns</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-5"><a></a>    <span class="fu">filter</span>(<span class="fu">str_detect</span>(country, <span class="st">&quot;United States&quot;</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb2-6"><a></a>  <span class="co"># Filter for US-based titles</span></span>
+<span id="cb2-7"><a></a>  <span class="fu">select</span>(title, country, type) <span class="sc">|&gt;</span> </span>
+<span id="cb2-8"><a></a>  <span class="co"># Select only the relevant columns</span></span>
+<span id="cb2-9"><a></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span> (everything)) </span>
+<span id="cb2-10"><a></a><span class="co"># Remove rows with NA values in any of the selected columns</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="organize-the-data-to-find-first-character" class="slide level2">
 <h2>Organize the data to find first character</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a>N_firstword <span class="ot">&lt;-</span> USfilms <span class="sc">|&gt;</span></span>
-<span id="cb3-2"><a></a><span class="fu">filter</span>(<span class="fu">str_detect</span>(title, <span class="st">&quot;^[A-Z]&quot;</span>)) <span class="sc">|&gt;</span> <span class="co"># Filter titles starting with uppercase letters</span></span>
-<span id="cb3-3"><a></a>  <span class="fu">mutate</span>(<span class="at">first_word =</span> <span class="fu">str_extract</span>(title, <span class="st">&quot;^</span><span class="sc">\\</span><span class="st">w&quot;</span>)) <span class="sc">|&gt;</span> <span class="co"># Extract the first word (not just the first letter)</span></span>
-<span id="cb3-4"><a></a>  <span class="fu">group_by</span>(first_word) <span class="sc">|&gt;</span> <span class="co"># Group by the first word</span></span>
-<span id="cb3-5"><a></a>  <span class="fu">mutate</span>(<span class="at">count =</span> <span class="fu">n</span>()) <span class="co"># Add a count of occurrences within each group</span></span>
-<span id="cb3-6"><a></a></span>
-<span id="cb3-7"><a></a><span class="fu">print</span>(N_firstword)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-2"><a></a><span class="fu">filter</span>(<span class="fu">str_detect</span>(title, <span class="st">&quot;^[A-Z]&quot;</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb3-3"><a></a>  <span class="co"># Filter titles starting with uppercase letters</span></span>
+<span id="cb3-4"><a></a>  <span class="fu">mutate</span>(<span class="at">first_word =</span> <span class="fu">str_extract</span>(title, <span class="st">&quot;^</span><span class="sc">\\</span><span class="st">w&quot;</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb3-5"><a></a>  <span class="co"># Extract the first word </span></span>
+<span id="cb3-6"><a></a>  <span class="fu">group_by</span>(first_word) <span class="sc">|&gt;</span> <span class="co"># Group by the first word</span></span>
+<span id="cb3-7"><a></a>  <span class="fu">mutate</span>(<span class="at">count =</span> <span class="fu">n</span>()) </span>
+<span id="cb3-8"><a></a><span class="co"># Add a count of occurrences within each group</span></span>
+<span id="cb3-9"><a></a></span>
+<span id="cb3-10"><a></a><span class="fu">print</span>(N_firstword)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3,241 × 5
 # Groups:   first_word [26]
@@ -1304,11 +1310,14 @@ Jessica Lin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a>N_firstdigit <span class="ot">&lt;-</span> USfilms <span class="sc">|&gt;</span></span>
 <span id="cb6-2"><a></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(title, <span class="st">&quot;^</span><span class="sc">\\</span><span class="st">d+&quot;</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb6-3"><a></a>  <span class="fu">mutate</span>(<span class="at">first_digit =</span> <span class="fu">str_extract</span>(title, <span class="st">&quot;^</span><span class="sc">\\</span><span class="st">d&quot;</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb6-4"><a></a>  <span class="fu">group_by</span>(first_digit) <span class="sc">|&gt;</span></span>
-<span id="cb6-5"><a></a>  <span class="fu">mutate</span>(<span class="at">count =</span> <span class="fu">n</span>())</span>
-<span id="cb6-6"><a></a></span>
-<span id="cb6-7"><a></a><span class="fu">print</span>(N_firstdigit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-3"><a></a>  <span class="co"># Filter titles starting with digit</span></span>
+<span id="cb6-4"><a></a>  <span class="fu">mutate</span>(<span class="at">first_digit =</span> <span class="fu">str_extract</span>(title, <span class="st">&quot;^</span><span class="sc">\\</span><span class="st">d&quot;</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb6-5"><a></a>  <span class="co"># Extract the first digit</span></span>
+<span id="cb6-6"><a></a>  <span class="fu">group_by</span>(first_digit) <span class="sc">|&gt;</span> <span class="co"># Group by the first word</span></span>
+<span id="cb6-7"><a></a>  <span class="fu">mutate</span>(<span class="at">count =</span> <span class="fu">n</span>())</span>
+<span id="cb6-8"><a></a><span class="co"># Add a count of occurrences within each group</span></span>
+<span id="cb6-9"><a></a></span>
+<span id="cb6-10"><a></a><span class="fu">print</span>(N_firstdigit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 49 × 5
 # Groups:   first_digit [8]
