@@ -1,5 +1,5 @@
 ---
-title: "Presentation"
+title: "US based Netflix Productions' Naming trend"
 author: "Jessica Lin"
 subtitle: "Dec 9"
 format:
@@ -14,7 +14,7 @@ execute:
   message: false
 ---
 
-## Project: Text Analysis
+## Project 2: Text Analysis
 
 -   str\_\*() functions and regular expressions
 -   Netflix Movies and TV Shows Data set
