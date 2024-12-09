@@ -19,6 +19,7 @@ execute:
 -   str\_\*() functions and regular expressions
 -   Netflix Movies and TV Shows Data set
 -   The data set comes from Kaggle w/ credit to Shivam Bansal
+
 ```{r, warning=FALSE, message=FALSE}
 library("tidytuesdayR")
 library("tidyverse")
@@ -35,6 +36,7 @@ show_col_types = FALSE
 -   Data-sets for not just Netflix, but also many other video streaming platforms such as Amazon Prime, Disney+, and Hulu.
 
 ## Focus on US based productions
+
 ```{r}
 library(dplyr)
 library(stringr)
@@ -45,7 +47,8 @@ USfilms <- netflix_titles |>
   filter(!is.na(everything)) # Remove rows with NA values in any of the selected columns
 ```
 
-## Organize the data to find first character 
+## Organize the data to find first character
+
 ```{r, warning=FALSE, message=FALSE}
 N_firstword <- USfilms |>
 filter(str_detect(title, "^[A-Z]")) |> # Filter titles starting with uppercase letters
@@ -56,7 +59,8 @@ filter(str_detect(title, "^[A-Z]")) |> # Filter titles starting with uppercase l
 print(N_firstword)
 ```
 
-## ggplot 
+## ggplot
+
 ```{r, warning=FALSE, message=FALSE}
 library(ggplot2)
 
@@ -67,7 +71,8 @@ ggplot(N_firstword, aes(x= first_word, fill=type)) +
        y = "Number of Occurrences") 
 ```
 
-## Organize the data to find first digit 
+## Organize the data to find first digit
+
 ```{r, warning=FALSE, message=FALSE}
 N_firstdigit <- USfilms |>
   filter(str_detect(title, "^\\d+")) |>
@@ -79,6 +84,7 @@ print(N_firstdigit)
 ```
 
 ## ggplot
+
 ```{r, warning=FALSE, message=FALSE}
  ggplot(N_firstdigit, aes(x= first_digit, fill=type)) +
    geom_bar() +
@@ -87,7 +93,8 @@ print(N_firstdigit)
        y = "Number of Occurrences") 
 ```
 
-## insight 
+## insight
+
 The analysis of first letters in US Netflix productions reveals some intriguing patterns:
 
 -   Dominance of "T": The letter "T" is the most common starting letter for titles. This is likely due to the prevalence of titles that begin with "The," a common article in English.
@@ -96,3 +103,5 @@ The analysis of first letters in US Netflix productions reveals some intriguing 
 
 -   Absence of Titles Starting with Certain Digits: There are no TV shows starting with the digit "2" or "4," possibly indicating a lack of popular content or marketing focus. Similarly, no movies begin with "7," which may reflect industry naming trends or a scarcity of suitable productions.
 
+## Benford's Law
+Benford’s Law, also known as the “law of first digits” or the “phenomenon of significant digits,” is the finding that the first digits (or numerals to be exact) of the numbers found in series of records of the most varied sources do not display a uniform distribution, but rather, they’re arranged in such a way that the digit one is the most frequent, followed by two, three, and so in a successively decreasing manner down to nine.
