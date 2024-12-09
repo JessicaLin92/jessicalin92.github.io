@@ -37,24 +37,30 @@ show_col_types = FALSE
 
 ## Focus on US based productions
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 library(dplyr)
 library(stringr)
 
 USfilms <- netflix_titles |> 
-    filter(str_detect(country, "United States")) |> # Filter for US-based titles
-  select(title, country, type) |> # Select only the relevant columns
-  filter(!is.na(everything)) # Remove rows with NA values in any of the selected columns
+    filter(str_detect(country, "United States")) |> 
+  # Filter for US-based titles
+  select(title, country, type) |> 
+  # Select only the relevant columns
+  filter(!is.na (everything)) 
+# Remove rows with NA values in any of the selected columns
 ```
 
 ## Organize the data to find first character
 
 ```{r, warning=FALSE, message=FALSE}
 N_firstword <- USfilms |>
-filter(str_detect(title, "^[A-Z]")) |> # Filter titles starting with uppercase letters
-  mutate(first_word = str_extract(title, "^\\w")) |> # Extract the first word (not just the first letter)
+filter(str_detect(title, "^[A-Z]")) |> 
+  # Filter titles starting with uppercase letters
+  mutate(first_word = str_extract(title, "^\\w")) |> 
+  # Extract the first word 
   group_by(first_word) |> # Group by the first word
-  mutate(count = n()) # Add a count of occurrences within each group
+  mutate(count = n()) 
+# Add a count of occurrences within each group
 
 print(N_firstword)
 ```
@@ -76,9 +82,12 @@ ggplot(N_firstword, aes(x= first_word, fill=type)) +
 ```{r, warning=FALSE, message=FALSE}
 N_firstdigit <- USfilms |>
   filter(str_detect(title, "^\\d+")) |>
+  # Filter titles starting with digit
   mutate(first_digit = str_extract(title, "^\\d")) |>
-  group_by(first_digit) |>
+  # Extract the first digit
+  group_by(first_digit) |> # Group by the first word
   mutate(count = n())
+# Add a count of occurrences within each group
 
 print(N_firstdigit)
 ```
@@ -104,4 +113,5 @@ The analysis of first letters in US Netflix productions reveals some intriguing 
 -   Absence of Titles Starting with Certain Digits: There are no TV shows starting with the digit "2" or "4," possibly indicating a lack of popular content or marketing focus. Similarly, no movies begin with "7," which may reflect industry naming trends or a scarcity of suitable productions.
 
 ## Benford's Law
+
 Benford’s Law, also known as the “law of first digits” or the “phenomenon of significant digits,” is the finding that the first digits (or numerals to be exact) of the numbers found in series of records of the most varied sources do not display a uniform distribution, but rather, they’re arranged in such a way that the digit one is the most frequent, followed by two, three, and so in a successively decreasing manner down to nine.
