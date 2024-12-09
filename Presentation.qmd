@@ -115,3 +115,5 @@ The analysis of first letters in US Netflix productions reveals some intriguing 
 ## Benford's Law
 
 Benford’s Law, also known as the “law of first digits” or the “phenomenon of significant digits,” is the finding that the first digits (or numerals to be exact) of the numbers found in series of records of the most varied sources do not display a uniform distribution, but rather, they’re arranged in such a way that the digit one is the most frequent, followed by two, three, and so in a successively decreasing manner down to nine.
+
+## Thank you! 
