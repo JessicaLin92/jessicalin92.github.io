@@ -1,0 +1,12 @@
+name: DS2_shiny
+title: DS2_shiny
+username: jessicacalin
+account: jessicacalin
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 13581735
+bundleId: 9506134
+url: https://jessicacalin.shinyapps.io/DS2_shiny/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE

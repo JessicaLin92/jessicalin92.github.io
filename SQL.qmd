@@ -142,7 +142,7 @@ WHERE m.Identifier IN ('Abur_2014', 'Feeney_2017', 'Groon_2015',
   AND m.Frequency > 200            
   AND m.Frequency < 8000
   AND m.Absorbance >= 0            
-  AND s.Race IN ( 'Black', 'Caucasian')   
+  AND s.Race IN ( 'Black ', 'Caucasian')   
 GROUP BY m.Identifier, s.Race, m.Frequency 
 ORDER BY m.Identifier, s.Race, m.Frequency;
 
@@ -181,7 +181,6 @@ head(data_absorption)
 Next, we use ggplot to plot the graph, same as part 1, Frequency as x-axis; MeanAbsorbance as y-axis; however, here the color will be GroupName which will be different group of subject, indicating different races.
 
 ```{r}
-
 ggplot(data_absorption, aes(x = Frequency, y = MeanAbsorbance, color = GroupName)) +
   geom_line() +
   facet_wrap(~ Identifier) +  

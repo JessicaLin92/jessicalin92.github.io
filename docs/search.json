@@ -32,7 +32,7 @@
     "href": "Simulation.html",
     "title": "Project 3: Simulation",
     "section": "",
-    "text": "For this project, we aimed to construct a simulation of students doing course registration at the Claremont Colleges to obtain a quantitative information on the probability of getting into the class the student wanted.\nIn order to create this simulation, We first defined a function that simulate the registration action, which take the class size and the number of students that is planning to take the class. next we random shuffle students into a list that represent the order of course registration time. Last, we define the result for whether one particular student can get into the class such True: the student can get into the class, or False: the student would not get into the class.\n\nlibrary(purrr)\nsimulate_registration &lt;- function(class_size, num_students) {\n  random &lt;- sample(1:num_students)  # Randomly shuffle students\n  \n  registered_students &lt;- random[1:class_size]  # Select the first 'class_size' students\n  return(ifelse(1 %in% registered_students, TRUE, FALSE))  # if the student is registered\n}\n\nAfter we finish setting up and defining the function, now we run it with map to rerun and simulate the event. For our simulation, because of how small the class at the Claremont colleges normally are, let’s put 20 as the class_size for this imaginary class. For the students number, although the total students number may be high, however, we should only consider the number of students that may be interested into taking this imaginary class, thus let’s assume there are 50 students wanting to get into this class.\nFor number of simulations, I choose to run 1000 times because in probability simulations, running multiple trials reduces random variability and gives a more stable estimate of the true probability.\n\nclass_size &lt;- 20\nnum_students &lt;- 50\nnum_simulations &lt;- 1000\n\n# Run simulations\nresults &lt;- map_int(1:num_simulations, ~ simulate_registration(class_size = class_size, num_students = num_students))\n\n# Calculate the probability that student can gets a spot\nnum_true &lt;- sum(results == 1)\nprobability &lt;- num_true / num_simulations\n\n# Print the result\nprint(paste(\"Probability that student 1 gets a spot:\", probability))\n\n[1] \"Probability that student 1 gets a spot: 0.357\"\n\n\nAfter a few trials of 1000 times simulations, the general probability value we are getting are between 0.38 ~ 0.42, which basically concluded that for this course registration simulation with 50 students trying to get in a 20 spot class, the probability of getting in is around 0.4.\n\nlibrary(ggplot2)\n\n\nresults_df &lt;- data.frame(\n  Status = c(\"Not Registered\", \"Registered\"),\n  Proportion = c(1 - probability, probability)\n)\n\n\nggplot(results_df, aes(x= 1, y = Proportion, fill = Status)) +\n  geom_bar(stat = \"identity\") +\n  labs(title = \"Proportion of Student Getting a Spot in the Class\",\n       x = \"\",\n       y = \"Proportion\") +\n  theme_minimal()+\n  scale_fill_manual(values = c(\"Registered\" = \"lightgreen\", \"Not Registered\" = \"gray\"))\n\n\n\n\n\n\n\n\nThis plot display the results that we run, which is whether the student gets into the class. As the graph displays, the proportion of a student getting into the class is slight below 50% particularly around the 40% range. On the other hand, the proportion of student not getting into the class they want is around 60%.\n\nConclusion\nFor this project, we use R to simulate the course registration event here at 5C colleges, although the numbers we input are very much based on assumptions, we do successfully use R to simulate and get a sense of the probabilities of 1 student getting into the class that 50 students are interested in.\nSome possible limitation or improvement for future simulation:\n\nCould potentially take the concept of ‘majors’ into consideration as they tends to have a prioritizes when registering for their major classes.\nCould take into consideration of the registration time being weighted towards upperclassman\nIn the similar manner, we can also take into consideration of ‘perms’ since this is the way professor approve or disapprove students’ ability to register the class."
+    "text": "For this project, we aimed to construct a simulation of students doing course registration at the Claremont Colleges to obtain a quantitative information on the probability of getting into the class the student wanted.\nIn order to create this simulation, We first defined a function that simulate the registration action, which take the class size and the number of students that is planning to take the class. next we random shuffle students into a list that represent the order of course registration time. Last, we define the result for whether one particular student can get into the class such True: the student can get into the class, or False: the student would not get into the class.\n\nlibrary(purrr)\nsimulate_registration &lt;- function(class_size, num_students) {\n  random &lt;- sample(1:num_students)  # Randomly shuffle students\n  \n  registered_students &lt;- random[1:class_size]  # Select the first 'class_size' students\n  return(ifelse(1 %in% registered_students, TRUE, FALSE))  # if the student is registered\n}\n\nAfter we finish setting up and defining the function, now we run it with map to rerun and simulate the event. For our simulation, because of how small the class at the Claremont colleges normally are, let’s put 20 as the class_size for this imaginary class. For the students number, although the total students number may be high, however, we should only consider the number of students that may be interested into taking this imaginary class, thus let’s assume there are 50 students wanting to get into this class.\nFor number of simulations, I choose to run 1000 times because in probability simulations, running multiple trials reduces random variability and gives a more stable estimate of the true probability.\n\nclass_size &lt;- 20\nnum_students &lt;- 50\nnum_simulations &lt;- 1000\n\n# Run simulations\nresults &lt;- map_int(1:num_simulations, ~ simulate_registration(class_size = class_size, num_students = num_students))\n\n# Calculate the probability that student can gets a spot\nnum_true &lt;- sum(results == 1)\nprobability &lt;- num_true / num_simulations\n\n# Print the result\nprint(paste(\"Probability that student 1 gets a spot:\", probability))\n\n[1] \"Probability that student 1 gets a spot: 0.38\"\n\n\nAfter a few trials of 1000 times simulations, the general probability value we are getting are between 0.38 ~ 0.42, which basically concluded that for this course registration simulation with 50 students trying to get in a 20 spot class, the probability of getting in is around 0.4.\n\nlibrary(ggplot2)\n\n\nresults_df &lt;- data.frame(\n  Status = c(\"Not Registered\", \"Registered\"),\n  Proportion = c(1 - probability, probability)\n)\n\n\nggplot(results_df, aes(x= 1, y = Proportion, fill = Status)) +\n  geom_bar(stat = \"identity\") +\n  labs(title = \"Proportion of Student Getting a Spot in the Class\",\n       x = \"\",\n       y = \"Proportion\") +\n  theme_minimal()+\n  scale_fill_manual(values = c(\"Registered\" = \"lightgreen\", \"Not Registered\" = \"gray\"))\n\n\n\n\n\n\n\n\nThis plot display the results that we run, which is whether the student gets into the class. As the graph displays, the proportion of a student getting into the class is slight below 50% particularly around the 40% range. On the other hand, the proportion of student not getting into the class they want is around 60%.\n\nConclusion\nFor this project, we use R to simulate the course registration event here at 5C colleges, although the numbers we input are very much based on assumptions, we do successfully use R to simulate and get a sense of the probabilities of 1 student getting into the class that 50 students are interested in.\nSome possible limitation or improvement for future simulation:\n\nCould potentially take the concept of ‘majors’ into consideration as they tends to have a prioritizes when registering for their major classes.\nCould take into consideration of the registration time being weighted towards upperclassman\nIn the similar manner, we can also take into consideration of ‘perms’ since this is the way professor approve or disapprove students’ ability to register the class."
   },
   {
     "objectID": "SQL.html",
@@ -44,65 +44,72 @@
   {
     "objectID": "Presentation.html#project-2-text-analysis",
     "href": "Presentation.html#project-2-text-analysis",
-    "title": "US based Netflix Productions’ Naming trend",
+    "title": "US based Netflix’s Naming trend",
     "section": "Project 2: Text Analysis",
     "text": "Project 2: Text Analysis\n\nstr_*() functions and regular expressions\nNetflix Movies and TV Shows Data set\nThe data set comes from Kaggle w/ credit to Shivam Bansal\n\n\nlibrary(\"tidytuesdayR\")\nlibrary(\"tidyverse\")\n\nnetflix_titles &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-20/netflix_titles.csv')\n\nshow_col_types = FALSE"
   },
   {
     "objectID": "Presentation.html#shivam-bansal",
     "href": "Presentation.html#shivam-bansal",
-    "title": "US based Netflix Productions’ Naming trend",
+    "title": "US based Netflix’s Naming trend",
     "section": "Shivam Bansal",
     "text": "Shivam Bansal\n\nAn experienced data science professional with a blend of full-stack engineering skills, pre-sales, and business skills\nA director for smaller scale video contents\nData-sets for not just Netflix, but also many other video streaming platforms such as Amazon Prime, Disney+, and Hulu."
   },
   {
     "objectID": "Presentation.html#focus-on-us-based-productions",
     "href": "Presentation.html#focus-on-us-based-productions",
-    "title": "US based Netflix Productions’ Naming trend",
+    "title": "US based Netflix’s Naming trend",
     "section": "Focus on US based productions",
     "text": "Focus on US based productions\n\nlibrary(dplyr)\nlibrary(stringr)\n\nUSfilms &lt;- netflix_titles |&gt; \n    filter(str_detect(country, \"United States\")) |&gt; \n  # Filter for US-based titles\n  select(title, country, type) |&gt; \n  # Select only the relevant columns\n  filter(!is.na (everything)) \n# Remove rows with NA values in any of the selected columns"
   },
   {
     "objectID": "Presentation.html#organize-the-data-to-find-first-character",
     "href": "Presentation.html#organize-the-data-to-find-first-character",
-    "title": "US based Netflix Productions’ Naming trend",
+    "title": "US based Netflix’s Naming trend",
     "section": "Organize the data to find first character",
     "text": "Organize the data to find first character\n\nN_firstword &lt;- USfilms |&gt;\nfilter(str_detect(title, \"^[A-Z]\")) |&gt; \n  # Filter titles starting with uppercase letters\n  mutate(first_word = str_extract(title, \"^\\\\w\")) |&gt; \n  # Extract the first word \n  group_by(first_word) |&gt; # Group by the first word\n  mutate(count = n()) \n# Add a count of occurrences within each group\n\nprint(N_firstword)\n\n# A tibble: 3,241 × 5\n# Groups:   first_word [26]\n   title                                   country        type  first_word count\n   &lt;chr&gt;                                   &lt;chr&gt;          &lt;chr&gt; &lt;chr&gt;      &lt;int&gt;\n 1 A 3 Minute Hug                          Mexico, Unite… Movie A            223\n 2 A Babysitter's Guide to Monster Hunting United States  Movie A            223\n 3 A Bad Moms Christmas                    United States… Movie A            223\n 4 A Boy Called Po                         United States  Movie A            223\n 5 A Bridge Too Far                        United States… Movie A            223\n 6 A California Christmas                  United States  Movie A            223\n 7 A Champion Heart                        United States  Movie A            223\n 8 A Christmas Prince                      United States  Movie A            223\n 9 A Christmas Prince: The Royal Baby      United States  Movie A            223\n10 A Christmas Prince: The Royal Wedding   United States  Movie A            223\n# ℹ 3,231 more rows"
   },
   {
     "objectID": "Presentation.html#ggplot",
     "href": "Presentation.html#ggplot",
-    "title": "US based Netflix Productions’ Naming trend",
+    "title": "US based Netflix’s Naming trend",
     "section": "ggplot",
     "text": "ggplot\n\nlibrary(ggplot2)\n\nggplot(N_firstword, aes(x= first_word, fill=type)) +\n   geom_bar() +\n  labs(title = \"Occurrences of different first letter in US Netflix Productions\",\n       x = \"First Letter of the title (A ~Z)\",\n       y = \"Number of Occurrences\")"
   },
   {
     "objectID": "Presentation.html#organize-the-data-to-find-first-digit",
     "href": "Presentation.html#organize-the-data-to-find-first-digit",
-    "title": "US based Netflix Productions’ Naming trend",
+    "title": "US based Netflix’s Naming trend",
     "section": "Organize the data to find first digit",
     "text": "Organize the data to find first digit\n\nN_firstdigit &lt;- USfilms |&gt;\n  filter(str_detect(title, \"^\\\\d+\")) |&gt;\n  # Filter titles starting with digit\n  mutate(first_digit = str_extract(title, \"^\\\\d\")) |&gt;\n  # Extract the first digit\n  group_by(first_digit) |&gt; # Group by the first word\n  mutate(count = n())\n# Add a count of occurrences within each group\n\nprint(N_firstdigit)\n\n# A tibble: 49 × 5\n# Groups:   first_digit [8]\n   title            country                        type    first_digit count\n   &lt;chr&gt;            &lt;chr&gt;                          &lt;chr&gt;   &lt;chr&gt;       &lt;int&gt;\n 1 9                United States                  Movie   9               2\n 2 21               United States                  Movie   2               8\n 3 187              United States                  Movie   1              21\n 4 1922             United States                  Movie   1              21\n 5 1983             Poland, United States          TV Show 1              21\n 6 3022             United States                  Movie   3               5\n 7 22-Jul           Norway, Iceland, United States Movie   2               8\n 8 1 Chance 2 Dance United States                  Movie   1              21\n 9 1 Mile to You    United States                  Movie   1              21\n10 10,000 B.C.      United States, South Africa    Movie   1              21\n# ℹ 39 more rows"
   },
   {
     "objectID": "Presentation.html#ggplot-1",
     "href": "Presentation.html#ggplot-1",
-    "title": "US based Netflix Productions’ Naming trend",
+    "title": "US based Netflix’s Naming trend",
     "section": "ggplot",
     "text": "ggplot\n\n ggplot(N_firstdigit, aes(x= first_digit, fill=type)) +\n   geom_bar() +\n  labs(title = \"Occurrences of different first digit in US Netflix Productions\",\n       x = \"First Digit (0~9)\",\n       y = \"Number of Occurrences\")"
   },
   {
     "objectID": "Presentation.html#insight",
     "href": "Presentation.html#insight",
-    "title": "US based Netflix Productions’ Naming trend",
+    "title": "US based Netflix’s Naming trend",
     "section": "insight",
     "text": "insight\nThe analysis of first letters in US Netflix productions reveals some intriguing patterns:\n\nDominance of “T”: The letter “T” is the most common starting letter for titles. This is likely due to the prevalence of titles that begin with “The,” a common article in English.\nPrevalence of the Digit “1”: The digit “1” appears most frequently as the starting digit in both movies and TV shows.\nAbsence of Titles Starting with Certain Digits: There are no TV shows starting with the digit “2” or “4,” possibly indicating a lack of popular content or marketing focus. Similarly, no movies begin with “7,” which may reflect industry naming trends or a scarcity of suitable productions."
   },
   {
     "objectID": "Presentation.html#benfords-law",
     "href": "Presentation.html#benfords-law",
-    "title": "US based Netflix Productions’ Naming trend",
+    "title": "US based Netflix’s Naming trend",
     "section": "Benford’s Law",
     "text": "Benford’s Law\nBenford’s Law, also known as the “law of first digits” or the “phenomenon of significant digits,” is the finding that the first digits (or numerals to be exact) of the numbers found in series of records of the most varied sources do not display a uniform distribution, but rather, they’re arranged in such a way that the digit one is the most frequent, followed by two, three, and so in a successively decreasing manner down to nine."
+  },
+  {
+    "objectID": "Presentation.html#thank-you",
+    "href": "Presentation.html#thank-you",
+    "title": "US based Netflix’s Naming trend",
+    "section": "Thank you!",
+    "text": "Thank you!"
   },
   {
     "objectID": "shinyapp.html",

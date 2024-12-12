@@ -20,8 +20,10 @@ website:
           text: Project 3-Simulation
         - href: SQL.qmd
           text: Project 4-SQL 
+        - href: https://jessicacalin.shinyapps.io/DS2_shiny/ 
+          text: Project 5-Shiny
       - href: Presentation.qmd
-        text: Presentattion
+        text: Presentation
       
 
         
