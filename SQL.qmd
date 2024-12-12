@@ -29,7 +29,7 @@ SHOW TABLES;
 
 # Part 1: Duplicating the graph
 
-For this project, we are duplicate the Figure 1 from [Voss (2020)](https://pmc.ncbi.nlm.nih.gov/articles/PMC7093226/). We will query the WAI Database and build a data set in order to graph using ggplot.
+For this project, we are duplicate the Figure 1 from [Voss (2020)](https://journals.lww.com/ear-hearing/citation/2019/11000/resource_review.21.aspx). We will query the WAI Database and build a data set in order to graph using ggplot.
 
 Step 1: Selecting the components that we need for the graph which includes identifier (only the studies that were shown in the original graph), instruments, frequency, absorbence and etc.
 
@@ -198,3 +198,29 @@ ggplot(data_absorption, aes(x = Frequency, y = MeanAbsorbance, color = GroupName
 This graph presents the mean absorbance on the y-axis across frequencies (Hz) on the x-axis for Black and Caucasian subjects, with separate panels representing data from different studies. It highlights variations in absorbance patterns by race within each study, showing both similarities and potential differences in the trends across frequencies.
 
 For the Lewis_2015 study and Rosowski_2012 study, both display minimal or no differences in absorbance between Black and Caucasian subjects, however, for the Shaver_2013 and Sun_2016 studies, both indicate significant racial differences, with Black subjects generally exhibiting higher absorbance, especially at lower and mid-frequencies. While Shahnaz_2006 lacks data for Black subjects, therefore there is only one line. Overall, racial differences in absorbance trends appear study-specific, with some studies showing marked variation and others showing uniformity.
+
+Reference List:
+
+- **Abur et al. (2014)**: HearID
+
+- **Feeney et al. (2017)**: Not commercial system
+
+- **Groon et al. (2015)**: Not commercial system
+
+- **Lewis and Neely (2015)**: Not commercial system
+
+- **Liu et al. (2008)**: Not commercial system
+
+- **Rosowski et al. (2012)**: HearID
+
+- **Shahnaz et al. (2006)**: HearID
+
+- **Shaver and Sun (2013)**: Titan
+
+- **Sun et al. (2016)**: Titan
+
+- **Voss and Allen (1994)**: Not commercial system
+
+- **Voss et al. (2010)**: HearID
+
+- **Werner et al. (2010)**: Not commercial system
